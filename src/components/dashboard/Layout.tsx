@@ -1,22 +1,26 @@
-import { Link, Outlet } from "react-router";
+import { SiteHeader } from "@/components/ui/site-header";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { Outlet } from "react-router";
+import { AppSidebar } from "./app-sidebar";
 
 export default function Layout() {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow py-4">
-        <div className="container mx-auto px-4">
-          <Link to="/dashboard" className="text-xl font-bold">
-            Admin Dashboard
-          </Link>
-          <Link to="/dashboard/orders">Orders</Link>
-          <Link to="/dashboard/customers" className="ml-4">
-            Customers
-          </Link>
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "calc(var(--spacing) * 66)",
+          "--header-height": "calc(var(--spacing) * 12)",
+        } as React.CSSProperties
+      }
+    >
+      <AppSidebar variant="inset" />
+      <SidebarInset>
+        <SiteHeader />
+
+        <div className="bg-background px-5 pt-6">
+          <Outlet />
         </div>
-      </header>
-      <div className="container mx-auto px-4 py-6">
-        <Outlet />
-      </div>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

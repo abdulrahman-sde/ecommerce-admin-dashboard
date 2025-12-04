@@ -6,9 +6,16 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import Layout from "./components/dashboard/Layout.tsx";
 import Login from "./pages/auth/Login.tsx";
-import DashboardHome from "./pages/dashboard/Home.tsx";
-import Users from "./pages/dashboard/Customers.tsx";
-import Settings from "./pages/dashboard/Orders.tsx";
+import Home from "./pages/dashboard/Home.tsx";
+import Customers from "./pages/dashboard/Customers.tsx";
+import Orders from "./pages/dashboard/Orders.tsx";
+import Coupons from "./pages/dashboard/Coupons.tsx";
+import Categories from "./pages/dashboard/Categories.tsx";
+import Transactions from "./pages/dashboard/Transactions.tsx";
+import Reports from "./pages/dashboard/Reports.tsx";
+import AddProducts from "./pages/dashboard/AddProducts.tsx";
+import Products from "./pages/dashboard/Products.tsx";
+import Admin from "./pages/dashboard/Admin.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -22,9 +29,16 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
-      { index: true, element: <DashboardHome /> },
-      { path: "customers", element: <Users /> },
-      { path: "orders", element: <Settings /> },
+      { index: true, element: <Home /> },
+      { path: "customers", element: <Customers /> },
+      { path: "orders", element: <Orders /> },
+      { path: "coupons", element: <Coupons /> },
+      { path: "categories", element: <Categories /> },
+      { path: "transactions", element: <Transactions /> },
+      { path: "reports", element: <Reports /> },
+      { path: "products/add", element: <AddProducts /> },
+      { path: "products", element: <Products /> },
+      { path: "admin", element: <Admin /> },
     ],
   },
 ]);
