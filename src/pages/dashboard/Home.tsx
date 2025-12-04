@@ -1,10 +1,18 @@
 import { StatsCard } from "@/components/dashboard/home/HomeStatsCard";
 import WeeklyReport from "@/components/dashboard/home/WeeklyReport";
 import CountryWiseSales from "@/components/dashboard/home/CountryWiseSales";
+import RecentTransactions from "@/components/dashboard/home/RecentTransactions";
+import TopProducts from "@/components/dashboard/home/TopProducts";
+import BestSellingProduct from "@/components/dashboard/home/BestSellingProduct";
+import AddNewProduct from "@/components/dashboard/home/AddNewProduct";
 import {
   dashboardStats,
   weeklyReportData,
   countrySalesData,
+  recentTransactionsData,
+  topProductsData,
+  bestSellingProductData,
+  addNewProductData,
 } from "@/constants/constants";
 
 export default function DashboardHome() {
@@ -22,6 +30,24 @@ export default function DashboardHome() {
         </div>
         <div className="col-span-3 sm:col-span-2 lg:col-span-1">
           <CountryWiseSales data={countrySalesData} />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-7 gap-4 mt-5">
+        <div className="col-span-1 lg:col-span-5">
+          <RecentTransactions data={recentTransactionsData} />
+        </div>
+        <div className="col-span-1 lg:col-span-2">
+          <TopProducts data={topProductsData} />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-3 gap-4 mt-5">
+        <div className="col-span-3 lg:col-span-2">
+          <BestSellingProduct data={bestSellingProductData} />
+        </div>
+        <div className="col-span-3 sm:col-span-2 lg:col-span-1">
+          <AddNewProduct data={addNewProductData} />
         </div>
       </div>
     </>

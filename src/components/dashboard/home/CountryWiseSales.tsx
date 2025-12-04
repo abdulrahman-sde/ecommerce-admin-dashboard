@@ -110,7 +110,7 @@ export default function CountryWiseSales({ data }: CountrySalesProps) {
         {/* View Insight Button */}
         <Button
           variant="outline"
-          className="w-full text-tertiary border-tertiary rounded-full"
+          className="w-full text-tertiary border-tertiary rounded-full mb-1.5"
         >
           View Insight
         </Button>

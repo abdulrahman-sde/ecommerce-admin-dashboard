@@ -343,3 +343,122 @@ export const countrySalesData = {
     },
   ],
 };
+
+// Recent Transactions Data
+export const recentTransactionsData = {
+  transactions: [
+    {
+      no: 1,
+      customerId: "#6545",
+      orderDate: "01 Oct | 11:29 am",
+      status: "Paid",
+      amount: "$64",
+    },
+    {
+      no: 2,
+      customerId: "#5412",
+      orderDate: "01 Oct | 11:29 am",
+      status: "Pending",
+      amount: "$557",
+    },
+    {
+      no: 3,
+      customerId: "#6622",
+      orderDate: "01 Oct | 11:29 am",
+      status: "Paid",
+      amount: "$156",
+    },
+    {
+      no: 4,
+      customerId: "#6462",
+      orderDate: "01 Oct | 11:29 am",
+      status: "Paid",
+      amount: "$265",
+    },
+    {
+      no: 5,
+      customerId: "#6462",
+      orderDate: "01 Oct | 11:29 am",
+      status: "Paid",
+      amount: "$265",
+    },
+  ],
+};
+
+// Top Products Data
+export const topProductsData = {
+  products: [
+    {
+      name: "Apple iPhone 13",
+      itemCode: "#FXZ-4567",
+      price: "$999.00",
+      image: "",
+    },
+    {
+      name: "Nike Air Jordan",
+      itemCode: "#FXZ-4567",
+      price: "$72.40",
+      image: "",
+    },
+    {
+      name: "T-shirt",
+      itemCode: "#FXZ-4567",
+      price: "$35.40",
+      image: "",
+    },
+    {
+      name: "Assorted Cross Bag",
+      itemCode: "#FXZ-4567",
+      price: "$80.00",
+      image: "",
+    },
+  ],
+};
+
+// Best Selling Product Data
+export const bestSellingProductData = {
+  products: [
+    {
+      name: "Apple iPhone 13",
+      totalOrder: 104,
+      status: "Stock",
+      price: "$999.00",
+      image: "",
+    },
+    {
+      name: "Nike Air Jordan",
+      totalOrder: 56,
+      status: "Stock out",
+      price: "$999.00",
+      image: "",
+    },
+    {
+      name: "T-shirt",
+      totalOrder: 266,
+      status: "Stock",
+      price: "$999.00",
+      image: "",
+    },
+    {
+      name: "Cross Bag",
+      totalOrder: 506,
+      status: "Stock",
+      price: "$999.00",
+      image: "",
+    },
+  ],
+};
+
+// Add New Product Data
+export const addNewProductData = {
+  categories: [
+    { name: "Electronic", icon: "" },
+    { name: "Fashion", icon: "" },
+    { name: "Home", icon: "" },
+  ],
+  products: [
+    { name: "Smart Fitness Tracker", price: "$39.99", image: "" },
+    { name: "Leather Wallet", price: "$19.99", image: "" },
+    { name: "Electric Hair Trimmer", price: "$34.99", image: "" },
+  ],
+};

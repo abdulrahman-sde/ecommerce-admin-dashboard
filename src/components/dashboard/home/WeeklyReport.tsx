@@ -50,7 +50,7 @@ export default function WeeklyReport({ data }: WeeklyReportProps) {
 
   return (
     <Card className="col-span-2 ">
-      <CardHeader className="flex-row min-h-full items-center justify-between pb-4">
+      <CardHeader className="flex flex-row min-h-full items-center justify-between pb-4">
         <div>
           <h3>Report for this week</h3>
         </div>

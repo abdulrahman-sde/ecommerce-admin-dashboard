@@ -44,14 +44,14 @@ export function StatsCard({
             {change && (
               <div
                 className={cn(
-                  "ml-2 flex flex-row items-center",
+                  "ml-2 flex flex-col xl:flex-row items-center",
                   change.isPositive ? "text-rise" : "text-destructive"
                 )}
               >
                 {change.isPositive ? (
-                  <ArrowUp size={18} />
+                  <ArrowUp size={18} className="hidden xl:block" />
                 ) : (
-                  <ArrowDown size={18} />
+                  <ArrowDown size={18} className="hidden xl:block" />
                 )}
                 {change.value}
               </div>
