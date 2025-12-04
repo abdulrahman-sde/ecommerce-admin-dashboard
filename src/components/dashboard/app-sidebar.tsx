@@ -13,7 +13,6 @@ import {
 } from "@tabler/icons-react";
 
 import { NavDocuments } from "@/components/ui/nav-documents";
-import { NavMain } from "@/components/ui/nav-main";
 import { NavUser } from "@/components/ui/nav-user";
 import {
   Sidebar,
