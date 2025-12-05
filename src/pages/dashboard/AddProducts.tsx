@@ -21,13 +21,13 @@ export default function AddProducts() {
   );
   const [productPrice, setProductPrice] = useState("999.89");
   const [discountedPrice, setDiscountedPrice] = useState("99");
-  const [salePrice, setSalePrice] = useState("900.89");
+  const [salePrice] = useState("900.89");
   const [stockQuantity, setStockQuantity] = useState("Unlimited");
   const [isUnlimited, setIsUnlimited] = useState(true);
   const [isFeatured, setIsFeatured] = useState(true);
   const [taxIncluded, setTaxIncluded] = useState(true);
-  const [mainImage, setMainImage] = useState("📱");
-  const [additionalImages, setAdditionalImages] = useState(["📱", "📱"]);
+  const [mainImage] = useState("📱");
+  const [additionalImages] = useState(["📱", "📱"]);
 
   const colors = [
     { name: "Green", color: "#D4E8D4" },

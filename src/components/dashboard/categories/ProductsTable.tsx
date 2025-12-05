@@ -111,10 +111,10 @@ export default function ProductsTable({ products }: ProductsTableProps) {
                 Product
               </TableHead>
               <TableHead className="text-[#111827] font-medium">
-                Created Date
+                Inventory
               </TableHead>
               <TableHead className="text-[#111827] font-medium">
-                Order
+                Price
               </TableHead>
               <TableHead className="text-[#111827] font-medium text-right">
                 Action
@@ -122,29 +122,34 @@ export default function ProductsTable({ products }: ProductsTableProps) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {currentProducts.map((product) => (
+            {currentProducts.map((product, index) => (
               <TableRow
                 key={product.id}
                 className="border-b border-[#E5E7EB] hover:bg-[#F9FAFB]"
               >
                 <TableCell className="text-[#6B7280] text-sm font-normal">
-                  1
+                  {startIndex + index + 1}
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-3">
                     <div className="h-10 w-10 rounded-lg bg-[#F3F4F6] flex items-center justify-center text-xl shrink-0">
-                      {product.icon}
+                      {product.image}
                     </div>
-                    <span className="text-sm text-[#111827] font-normal">
-                      {product.name}
-                    </span>
+                    <div>
+                      <div className="text-sm font-medium text-[#111827]">
+                        {product.name}
+                      </div>
+                      <div className="text-xs text-[#6B7280]">
+                        {product.category}
+                      </div>
+                    </div>
                   </div>
                 </TableCell>
                 <TableCell className="text-[#6B7280] text-sm font-normal">
-                  {product.createdDate}
+                  {product.inventory}
                 </TableCell>
                 <TableCell className="text-[#6B7280] text-sm font-normal">
-                  {product.order}
+                  {product.price}
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center justify-end gap-2">

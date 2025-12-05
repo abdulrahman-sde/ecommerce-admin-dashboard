@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -19,13 +19,9 @@ import {
 } from "@/components/ui/table";
 
 export default function CustomerDetail() {
-  const { id } = useParams();
   const navigate = useNavigate();
 
-  // Decode the customer ID
-  const customerId = id ? decodeURIComponent(id) : "";
-
-  // In a real app, you would fetch customer data based on the customerId
+  // In a real app, you would fetch customer data based on the ID from useParams
   const customer = customerDetailData;
 
   return (
