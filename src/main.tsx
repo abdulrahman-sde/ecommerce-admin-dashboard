@@ -7,10 +7,14 @@ import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import Layout from "./components/dashboard/Layout.tsx";
 import Login from "./pages/auth/Login.tsx";
 import Home from "./pages/dashboard/Home.tsx";
-import Customers from "./pages/dashboard/Customers.tsx";
+import Customers from "./pages/dashboard/customers/index.tsx";
+import CustomerDetail from "./pages/dashboard/customers/detail.tsx";
+import AddCustomer from "./pages/dashboard/customers/add.tsx";
 import Orders from "./pages/dashboard/Orders.tsx";
-import Coupons from "./pages/dashboard/Coupons.tsx";
-import Categories from "./pages/dashboard/Categories.tsx";
+import Coupons from "./pages/dashboard/coupons/index.tsx";
+import AddCoupon from "./pages/dashboard/coupons/add.tsx";
+import Categories from "./pages/dashboard/categories/index.tsx";
+import EditCategory from "./pages/dashboard/categories/edit.tsx";
 import Transactions from "./pages/dashboard/Transactions.tsx";
 import Reports from "./pages/dashboard/Reports.tsx";
 import AddProducts from "./pages/dashboard/AddProducts.tsx";
@@ -31,9 +35,14 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "customers", element: <Customers /> },
+      { path: "customers/add", element: <AddCustomer /> },
+      { path: "customers/:id", element: <CustomerDetail /> },
       { path: "orders", element: <Orders /> },
       { path: "coupons", element: <Coupons /> },
+      { path: "coupons/add", element: <AddCoupon /> },
       { path: "categories", element: <Categories /> },
+      { path: "categories/add", element: <EditCategory /> },
+      { path: "categories/edit/:id", element: <EditCategory /> },
       { path: "transactions", element: <Transactions /> },
       { path: "reports", element: <Reports /> },
       { path: "products/add", element: <AddProducts /> },

@@ -2,6 +2,14 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Filter } from "lucide-react";
 import type { BestSellingProductProps } from "@/types";
 
@@ -21,59 +29,57 @@ export default function BestSellingProduct({ data }: BestSellingProductProps) {
       </CardHeader>
 
       <CardContent>
-        {/* Table Header */}
-        <div className="grid grid-cols-4 gap-4 pb-3 bg-muted/50 px-4 py-2 rounded-t-lg">
-          <div className="text-[13px] font-normal text-muted-foreground uppercase">
-            Product
-          </div>
-          <div className="text-[13px] font-normal text-muted-foreground uppercase text-center">
-            Total Order
-          </div>
-          <div className="text-[13px] font-normal text-muted-foreground uppercase text-center">
-            Status
-          </div>
-          <div className="text-[13px] font-normal text-muted-foreground uppercase text-right">
-            Price
-          </div>
-        </div>
-
-        {/* Table Body */}
-        <div className="space-y-4 mt-4">
-          {data.products.map((product, index) => (
-            <div
-              key={index}
-              className="grid grid-cols-4 gap-4 items-center px-4"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center overflow-hidden">
-                  {product.image ? (
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-muted" />
-                  )}
-                </div>
-                <span className="text-sm font-medium">{product.name}</span>
-              </div>
-              <div className="text-sm text-center">{product.totalOrder}</div>
-              <div className="flex items-center justify-center gap-2">
-                <div
-                  className={`h-2 w-2 rounded-full ${
-                    product.status === "Stock"
-                      ? "bg-[#4EA674]"
-                      : "bg-destructive"
-                  }`}
-                />
-                <span className="text-sm">{product.status}</span>
-              </div>
-              <div className="text-sm font-semibold text-right">
-                {product.price}
-              </div>
-            </div>
-          ))}
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Product</TableHead>
+                <TableHead className="text-center">Total Order</TableHead>
+                <TableHead className="text-center">Status</TableHead>
+                <TableHead className="text-right">Price</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data.products.map((product, index) => (
+                <TableRow key={index}>
+                  <TableCell>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center overflow-hidden">
+                        {product.image ? (
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-muted" />
+                        )}
+                      </div>
+                      <span className="font-medium">{product.name}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {product.totalOrder}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center justify-center gap-2">
+                      <div
+                        className={`h-2 w-2 rounded-full ${
+                          product.status === "Stock"
+                            ? "bg-[#4EA674]"
+                            : "bg-destructive"
+                        }`}
+                      />
+                      <span>{product.status}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="font-semibold text-right">
+                    {product.price}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
 
         {/* Details Button */}

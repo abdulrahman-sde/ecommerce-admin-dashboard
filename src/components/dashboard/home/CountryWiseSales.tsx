@@ -33,7 +33,7 @@ export default function CountryWiseSales({ data }: CountrySalesProps) {
 
       <CardContent>
         {/* Mini Bar Chart */}
-        <div>
+        <div className="-mt-2">
           <p className="text-[15px] leading-[18px] font-normal text-muted-foreground mb-3">
             Users per minute
           </p>
@@ -62,7 +62,7 @@ export default function CountryWiseSales({ data }: CountrySalesProps) {
           {/* Country List */}
           <div className="space-y-2">
             {data.countries.map((country, index) => (
-              <div key={index} className="space-y-2">
+              <div key={index}>
                 <div className="grid grid-cols-6 items-center gap-6">
                   <div className="flex items-center gap-3 col-span-2">
                     <ReactCountryFlag

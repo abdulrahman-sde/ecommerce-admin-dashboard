@@ -69,8 +69,8 @@ body {
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: #EF4343;
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
+  --border: #D1D5DB;
+  --input: #D1D5DB;
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -82,7 +82,7 @@ body {
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: #4EA674;
-  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-border: #D1D5DB;
   --sidebar-ring: oklch(0.708 0 0);
 }
 
@@ -103,6 +103,41 @@ h3 {
   font-weight: bold;
   letter-spacing: -0.025em;
   color: #023337;
+}
+
+/* Input Styles */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+input[type="date"],
+textarea,
+select {
+  height: 40px;
+  border-radius: 4px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #A1A7C4;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+textarea {
+  height: auto;
+  min-height: 80px;
+}
+
+/* Label Styles */
+label {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #5A607F;
 }
 
 
