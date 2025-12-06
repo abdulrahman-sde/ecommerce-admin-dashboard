@@ -40,26 +40,31 @@ export default function AddProducts() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <h1 className="text-2xl font-semibold text-[#111827]">
           Add New Product
         </h1>
-        <div className="flex items-center gap-3">
-          <div className="relative">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
+          <div className="relative flex-1 sm:flex-none">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#9CA3AF]" />
             <Input
               placeholder="Search product for add"
-              className="pl-10 w-64 border-[#E5E7EB] text-sm"
+              className="pl-10 w-full sm:w-64 border-[#E5E7EB] text-sm"
             />
           </div>
           <Button className="bg-[#4EA674] hover:bg-[#3d8a5e] text-white">
-            Publish Product
+            <span className="hidden sm:inline">Publish Product</span>
+            <span className="sm:hidden">Publish</span>
           </Button>
-          <Button variant="outline" className="border-[#E5E7EB]">
+          <Button variant="outline" className="border-[#E5E7EB] hidden md:flex">
             <Save className="h-4 w-4 mr-2" />
             Save to draft
           </Button>
-          <Button variant="outline" size="icon" className="border-[#E5E7EB]">
+          <Button
+            variant="outline"
+            size="icon"
+            className="border-[#E5E7EB] hidden md:flex"
+          >
             <Plus className="h-4 w-4" />
           </Button>
         </div>

@@ -60,7 +60,7 @@ export function OrdersTable({ data }: OrdersTableProps) {
                 onClick={() => setActiveTab("all")}
                 className={`px-4 py-1.5 text-sm rounded-md transition-all ${
                   activeTab === "all"
-                    ? "bg-white shadow-sm font-medium"
+                    ? "bg-white shadow-sm "
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -70,7 +70,7 @@ export function OrdersTable({ data }: OrdersTableProps) {
                 onClick={() => setActiveTab("completed")}
                 className={`px-4 py-1.5 text-sm rounded-md transition-all ${
                   activeTab === "completed"
-                    ? "bg-white shadow-sm font-medium"
+                    ? "bg-white shadow-sm "
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -80,7 +80,7 @@ export function OrdersTable({ data }: OrdersTableProps) {
                 onClick={() => setActiveTab("pending")}
                 className={`px-4 py-1.5 text-sm rounded-md transition-all ${
                   activeTab === "pending"
-                    ? "bg-white shadow-sm font-medium"
+                    ? "bg-white shadow-sm "
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -90,7 +90,7 @@ export function OrdersTable({ data }: OrdersTableProps) {
                 onClick={() => setActiveTab("canceled")}
                 className={`px-4 py-1.5 text-sm rounded-md transition-all ${
                   activeTab === "canceled"
-                    ? "bg-white shadow-sm font-medium"
+                    ? "bg-white shadow-sm "
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -123,24 +123,26 @@ export function OrdersTable({ data }: OrdersTableProps) {
         <TabsContent value={activeTab} className="m-0">
           <div className="overflow-x-auto px-6">
             <Table>
-              <TableHeader>
+              <TableHeader className="[&_tr]:border-0 bg-[#EAF8E7] ">
                 <TableRow>
-                  <TableHead className="w-16">No.</TableHead>
-                  <TableHead className="w-20">Order Id</TableHead>
-                  <TableHead>Product</TableHead>
-                  <TableHead className="w-32">Date</TableHead>
-                  <TableHead className="w-24">Price</TableHead>
-                  <TableHead className="w-32">Payment</TableHead>
-                  <TableHead className="w-28">Status</TableHead>
+                  <TableHead className="w-16 py-4 rounded-l-xl px-4">
+                    No.
+                  </TableHead>
+                  <TableHead className="w-20 py-4 ">Order Id</TableHead>
+                  <TableHead className="ps-8">Product</TableHead>
+                  <TableHead className="w-32 py-4 ">Date</TableHead>
+                  <TableHead className="w-24 py-4 ">Price</TableHead>
+                  <TableHead className="w-32 py-4 ">Payment</TableHead>
+                  <TableHead className="w-28 py-4 ">Status</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody className="[&_tr]:h-14">
+              <TableBody className="[&_tr]:h-16 [&_tr]:border-b  ">
                 {filteredData.map((order, index) => (
                   <TableRow key={index}>
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell className="font-medium">{order.id}</TableCell>
+                    <TableCell className="px-4">{index + 1}</TableCell>
+                    <TableCell className="px-4">{order.id}</TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3 ps-5">
                         <div className="size-8 flex items-center justify-center text-xl">
                           {order.product.icon}
                         </div>
@@ -150,7 +152,7 @@ export function OrdersTable({ data }: OrdersTableProps) {
                     <TableCell className="text-muted-foreground">
                       {order.date}
                     </TableCell>
-                    <TableCell className="font-medium">{order.price}</TableCell>
+                    <TableCell className="px-4">{order.price}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <div

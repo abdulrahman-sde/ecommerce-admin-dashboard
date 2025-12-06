@@ -46,7 +46,7 @@ export default function CountryWiseSales({ data }: CountrySalesProps) {
                 dataKey="value"
                 fill="#4EA674"
                 radius={[2, 2, 2, 2]}
-                maxBarSize={14}
+                maxBarSize={11}
               />
             </BarChart>
           </ChartContainer>

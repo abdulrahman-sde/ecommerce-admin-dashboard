@@ -41,7 +41,7 @@ export default function RecentTransactions({ data }: RecentTransactionsProps) {
                 <TableHead className="text-right">Amount</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody className="[&_tr]:h-12">
+            <TableBody className="[&_tr]:h-11">
               {data.transactions.map((transaction, index) => (
                 <TableRow key={index}>
                   <TableCell>{transaction.no}.</TableCell>
@@ -73,8 +73,11 @@ export default function RecentTransactions({ data }: RecentTransactionsProps) {
         </div>
 
         {/* Details Button */}
-        <div className="flex justify-end mt-6">
-          <Button variant="outline" className="text-primary border-primary">
+        <div className="flex justify-end mt-2">
+          <Button
+            variant="outline"
+            className="text-tertiary border-tertiary rounded-3xl px-6"
+          >
             Details
           </Button>
         </div>

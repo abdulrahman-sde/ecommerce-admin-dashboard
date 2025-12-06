@@ -7,8 +7,8 @@ import type { TopProductsProps } from "@/types";
 
 export default function TopProducts({ data }: TopProductsProps) {
   return (
-    <Card className="shadow-sm border-0">
-      <CardHeader className="flex flex-row items-center justify-between pb-4">
+    <Card className="shadow-sm border-0 pb-3">
+      <CardHeader className="flex flex-row items-center justify-between ">
         <h3 className="font-semibold">Top Products</h3>
         <button className="text-primary text-sm hover:underline">
           All product
@@ -31,7 +31,7 @@ export default function TopProducts({ data }: TopProductsProps) {
           {data.products.map((product, index) => (
             <div
               key={index}
-              className="flex items-center justify-between pb-4 border-b last:border-b-0 last:pb-0"
+              className="flex items-center justify-between pb-4 border-b border-[#D1D1D1] "
             >
               <div className="flex items-center gap-3">
                 {/* Product Image */}

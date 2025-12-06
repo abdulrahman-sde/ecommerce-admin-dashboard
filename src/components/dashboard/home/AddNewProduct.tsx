@@ -8,7 +8,7 @@ import type { AddNewProductProps } from "@/types";
 export default function AddNewProduct({ data }: AddNewProductProps) {
   return (
     <Card className="shadow-sm border-0">
-      <CardHeader className="flex flex-row items-center justify-between pb-4">
+      <CardHeader className="flex flex-row items-center justify-between ">
         <h3 className="font-semibold">Add New Product</h3>
         <button className="text-primary text-sm hover:underline flex items-center gap-1">
           <Plus className="h-4 w-4" />

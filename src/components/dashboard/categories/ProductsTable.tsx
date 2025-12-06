@@ -53,111 +53,82 @@ export default function ProductsTable({ products }: ProductsTableProps) {
   return (
     <div className="space-y-6">
       {/* Tabs */}
-      <div className="flex items-center justify-between border-b border-[#E5E7EB]">
-        <div className="flex gap-6">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1 bg-muted rounded-lg p-1">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`pb-3 px-1 text-sm font-medium transition-colors relative ${
+              className={`px-4 py-1.5 text-sm rounded-md transition-all ${
                 activeTab === tab.id
-                  ? "text-[#4EA674]"
-                  : "text-[#6B7280] hover:text-[#111827]"
+                  ? "bg-white shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {tab.label}{" "}
-              <span
-                className={
-                  activeTab === tab.id ? "text-[#4EA674]" : "text-[#9CA3AF]"
-                }
-              >
-                ({tab.count})
-              </span>
-              {activeTab === tab.id && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#4EA674]" />
-              )}
+              <span className="text-muted-foreground">({tab.count})</span>
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-3 pb-3">
+        <div className="flex items-center gap-2">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#9CA3AF]" />
-            <Input
-              placeholder="Search your product"
-              className="pl-10 w-64 border-[#E5E7EB] text-sm"
-            />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+            <Input placeholder="Search your product" className="pl-9 w-60" />
           </div>
-          <Button variant="outline" size="icon" className="border-[#E5E7EB]">
-            <SlidersHorizontal className="h-4 w-4 text-[#6B7280]" />
+          <Button variant="outline" size="icon">
+            <SlidersHorizontal className="size-4" />
           </Button>
           <Button size="icon" className="bg-[#4EA674] hover:bg-[#3d8a5e]">
-            <Plus className="h-4 w-4" />
+            <Plus className="size-4" />
           </Button>
-          <Button variant="outline" size="icon" className="border-[#E5E7EB]">
-            <MoreVertical className="h-4 w-4 text-[#6B7280]" />
+          <Button variant="outline" size="icon">
+            <MoreVertical className="size-4" />
           </Button>
         </div>
       </div>
 
       {/* Table */}
-      <div className="border border-[#E5E7EB] rounded-lg overflow-hidden">
+      <div className="overflow-x-auto">
         <Table>
-          <TableHeader>
-            <TableRow className="bg-[#D5F6E3] hover:bg-[#D5F6E3] border-b border-[#E5E7EB]">
-              <TableHead className="text-[#111827] font-medium w-16">
-                No.
-              </TableHead>
-              <TableHead className="text-[#111827] font-medium">
-                Product
-              </TableHead>
-              <TableHead className="text-[#111827] font-medium">
-                Inventory
-              </TableHead>
-              <TableHead className="text-[#111827] font-medium">
-                Price
-              </TableHead>
-              <TableHead className="text-[#111827] font-medium text-right">
+          <TableHeader className="[&_tr]:border-0 bg-[#EAF8E7]">
+            <TableRow>
+              <TableHead className="w-16 py-4 rounded-l-xl px-4">No.</TableHead>
+              <TableHead className="ps-8">Product</TableHead>
+              <TableHead className="w-32 py-4">Inventory</TableHead>
+              <TableHead className="w-24 py-4">Price</TableHead>
+              <TableHead className="w-28 py-4 text-right rounded-r-xl px-4">
                 Action
               </TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
+          <TableBody className="[&_tr]:h-16 [&_tr]:border-b">
             {currentProducts.map((product, index) => (
-              <TableRow
-                key={product.id}
-                className="border-b border-[#E5E7EB] hover:bg-[#F9FAFB]"
-              >
-                <TableCell className="text-[#6B7280] text-sm font-normal">
-                  {startIndex + index + 1}
-                </TableCell>
+              <TableRow key={product.id}>
+                <TableCell className="px-4">{startIndex + index + 1}</TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-lg bg-[#F3F4F6] flex items-center justify-center text-xl shrink-0">
+                  <div className="flex items-center gap-3 ps-5">
+                    <div className="size-8 flex items-center justify-center text-xl">
                       {product.image}
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-[#111827]">
-                        {product.name}
-                      </div>
-                      <div className="text-xs text-[#6B7280]">
+                      <div className="text-sm font-medium">{product.name}</div>
+                      <div className="text-xs text-muted-foreground">
                         {product.category}
                       </div>
                     </div>
                   </div>
                 </TableCell>
-                <TableCell className="text-[#6B7280] text-sm font-normal">
+                <TableCell className="text-muted-foreground">
                   {product.inventory}
                 </TableCell>
-                <TableCell className="text-[#6B7280] text-sm font-normal">
-                  {product.price}
-                </TableCell>
+                <TableCell className="px-4">{product.price}</TableCell>
                 <TableCell>
-                  <div className="flex items-center justify-end gap-2">
-                    <button className="p-1.5 hover:bg-[#F3F4F6] rounded transition-colors">
-                      <Edit className="h-4 w-4 text-[#6B7280]" />
+                  <div className="flex items-center justify-end gap-2 px-4">
+                    <button className="p-1.5 hover:bg-muted rounded transition-colors">
+                      <Edit className="size-4 text-muted-foreground" />
                     </button>
-                    <button className="p-1.5 hover:bg-[#F3F4F6] rounded transition-colors">
-                      <Trash2 className="h-4 w-4 text-[#6B7280]" />
+                    <button className="p-1.5 hover:bg-muted rounded transition-colors">
+                      <Trash2 className="size-4 text-muted-foreground" />
                     </button>
                   </div>
                 </TableCell>

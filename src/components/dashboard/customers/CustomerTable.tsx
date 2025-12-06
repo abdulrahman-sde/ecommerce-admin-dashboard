@@ -38,7 +38,7 @@ export function CustomerTable({ data }: CustomerTableProps) {
     <Card className="p-0 border-[#D1D5DB]">
       <div className="overflow-x-auto">
         <Table className="px-10">
-          <TableHeader className="h-14">
+          <TableHeader className="h-14 ">
             <TableRow className="bg-[#EAF8E7] hover:bg-[#EAF8E7]">
               <TableHead className="bg-[#EAF8E7] px-8">Customer Id</TableHead>
               <TableHead className="bg-[#EAF8E7] px-4">Name</TableHead>
@@ -49,7 +49,7 @@ export function CustomerTable({ data }: CustomerTableProps) {
               <TableHead className="bg-[#EAF8E7] px-4">Action</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody className="[&_tr]:h-14">
+          <TableBody className="[&_tr]:h-15 [&_tr]:border-b">
             {data.map((customer, index) => (
               <TableRow
                 key={index}

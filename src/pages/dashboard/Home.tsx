@@ -25,28 +25,28 @@ export default function DashboardHome() {
       </div>
 
       <div className="grid grid-cols-3 gap-4 mt-5">
-        <div className="col-span-3 lg:col-span-2 ">
+        <div className="col-span-3 xl:col-span-2 ">
           <WeeklyReport data={weeklyReportData} />
         </div>
-        <div className="col-span-3 sm:col-span-2 lg:col-span-1">
+        <div className="col-span-3  xl:col-span-1">
           <CountryWiseSales data={countrySalesData} />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-7 gap-4 mt-5">
-        <div className="col-span-1 lg:col-span-5">
+      <div className="grid grid-cols-1 xl:grid-cols-7 gap-4 mt-5">
+        <div className="col-span-1 xl:col-span-5">
           <RecentTransactions data={recentTransactionsData} />
         </div>
-        <div className="col-span-1 lg:col-span-2">
+        <div className="col-span-1 xl:col-span-2">
           <TopProducts data={topProductsData} />
         </div>
       </div>
 
       <div className="grid grid-cols-3 gap-4 mt-5">
-        <div className="col-span-3 lg:col-span-2">
+        <div className="col-span-3 xl:col-span-2">
           <BestSellingProduct data={bestSellingProductData} />
         </div>
-        <div className="col-span-3 sm:col-span-2 lg:col-span-1">
+        <div className="col-span-3 xl:col-span-1">
           <AddNewProduct data={addNewProductData} />
         </div>
       </div>

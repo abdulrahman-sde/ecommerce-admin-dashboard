@@ -3,6 +3,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { siteHeaderHeadings } from "@/constants/constants";
 import { useLocation } from "react-router";
 import { SearchInput } from "../dashboard/SearchInput";
+import userImage from "@/assets/images/user.png";
 
 export function SiteHeader() {
   const pathname = useLocation().pathname.split("/")[2] || "dashboard";
@@ -22,7 +23,7 @@ export function SiteHeader() {
           <div className="flex gap-4 items-center">
             <SearchInput />
             <img
-              src="/src/assets/images/user.png"
+              src={userImage}
               alt="user photo"
               className="w-10 h-10 rounded-full object-cover"
             />

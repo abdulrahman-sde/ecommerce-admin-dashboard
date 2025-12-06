@@ -29,7 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search, PenSquare, Trash2 } from "lucide-react";
+import { Search } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface Coupon {
@@ -59,7 +59,7 @@ const couponsData: Coupon[] = [
     name: "Free shipping on all items",
     code: "Shipfreetomee15",
     icon: "truck",
-    iconBg: "bg-[#6C7898]",
+    iconBg: "bg-[#7E84A3]",
     usage: "42 times",
     status: "Active",
     dateRange: "May 5, 2020 - May 15, 2020",
@@ -89,7 +89,7 @@ const couponsData: Coupon[] = [
     name: "Free shipping on all items",
     code: "Shipfreetomee15",
     icon: "truck",
-    iconBg: "bg-[#6C7898]",
+    iconBg: "bg-[#7E84A3]",
     usage: "18 times",
     status: "Active",
     dateRange: "April 12, 2020 - April 20, 2020",
@@ -119,7 +119,7 @@ const couponsData: Coupon[] = [
     name: "Free shipping on all items",
     code: "Shipfreetomee15",
     icon: "truck",
-    iconBg: "bg-[#6C7898]",
+    iconBg: "bg-[#7E84A3]",
     usage: "15 times",
     status: "Expired",
     dateRange: "Feb 14, 2020 - Feb 20, 2020",
@@ -185,46 +185,79 @@ export default function Coupons() {
     selectedCoupons.length === filteredCoupons.length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-[26px]">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold">Coupons</h2>
-        <div className="flex items-center gap-3">
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-10 w-10 border-[#D1D5DB]"
-          >
-            <PenSquare className="h-4 w-4 text-[#4EA674]" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-10 w-10 border-[#D1D5DB]"
-          >
-            <Trash2 className="h-4 w-4 text-[#4EA674]" />
-          </Button>
-        </div>
+        <h2 className="text-[24px] font-bold">Coupons</h2>
+        <Button className="w-[138px] h-[40px] bg-[#4EA674] hover:bg-[#4EA674]/90 rounded-[4px] text-white gap-2">
+          <span className="text-xl">+</span>
+          Create
+        </Button>
       </div>
 
       {/* Tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="inline-flex h-auto w-auto rounded-none border-b border-[#D1D5DB] bg-transparent p-0">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full ">
+        <TabsList
+          className="
+          flex w-max items-center gap-8 
+          bg-transparent p-0 
+          border-b border-[#E5E7EB]
+          rounded-none
+        "
+        >
           <TabsTrigger
             value="all"
-            className="rounded-none border-b-2 border-transparent bg-transparent px-4 py-2.5 text-sm font-medium text-[#8B909A] data-[state=active]:border-[#4EA674] data-[state=active]:bg-transparent data-[state=active]:text-[#023337] data-[state=active]:shadow-none"
+            className="
+            px-4  py-3 
+            text-[16px] font-medium text-[#9CA3AF]
+
+            border-b-2 border-transparent
+
+            data-[state=active]:text-[#4EA674]
+            data-[state=active]:border-[#4EA674]
+            data-[state=active]:bg-transparent
+            data-[state=active]:shadow-none
+
+            focus-visible:ring-0 focus-visible:ring-offset-0
+          "
           >
             All Coupons
           </TabsTrigger>
+
           <TabsTrigger
             value="active"
-            className="rounded-none border-b-2 border-transparent bg-transparent px-4 py-2.5 text-sm font-medium text-[#8B909A] data-[state=active]:border-[#4EA674] data-[state=active]:bg-transparent data-[state=active]:text-[#023337] data-[state=active]:shadow-none"
+            className="
+            px-4  py-3 
+            text-[16px] font-medium text-[#9CA3AF]
+
+            border-b-2 border-transparent
+
+            data-[state=active]:text-[#4EA674]
+            data-[state=active]:border-[#4EA674]
+            data-[state=active]:bg-transparent
+            data-[state=active]:shadow-none
+
+            focus-visible:ring-0 focus-visible:ring-offset-0
+          "
           >
             Active Coupons
           </TabsTrigger>
+
           <TabsTrigger
             value="expired"
-            className="rounded-none border-b-2 border-transparent bg-transparent px-4 py-2.5 text-sm font-medium text-[#8B909A] data-[state=active]:border-[#4EA674] data-[state=active]:bg-transparent data-[state=active]:text-[#023337] data-[state=active]:shadow-none"
+            className="
+            px-4  py-3 
+            text-[16px] font-medium text-[#9CA3AF]
+
+            border-b-2 border-transparent
+
+            data-[state=active]:text-[#4EA674]
+            data-[state=active]:border-[#4EA674]
+            data-[state=active]:bg-transparent
+            data-[state=active]:shadow-none
+
+            focus-visible:ring-0 focus-visible:ring-offset-0
+          "
           >
             Expired Coupons
           </TabsTrigger>
@@ -234,7 +267,7 @@ export default function Coupons() {
       {/* Filters */}
       <div className="flex items-center gap-3">
         <Select defaultValue="filter">
-          <SelectTrigger className="w-[120px] h-10 border-[#D1D5DB]">
+          <SelectTrigger className="w-[120px] h-[40px] border-[#D9E1EC]">
             <SelectValue placeholder="Filter" />
           </SelectTrigger>
           <SelectContent>
@@ -251,41 +284,44 @@ export default function Coupons() {
             placeholder="Search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9"
+            className="h-[40px] border-[#D9E1EC] pl-9"
           />
         </div>
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-lg border border-[#D1D5DB]">
+      <div className="overflow-x-auto rounded-lg ">
         <Table>
-          <TableHeader className="bg-[#EAF8E7]">
-            <TableRow className="hover:bg-[#EAF8E7]">
+          <TableHeader className=" [&_tr]:border-b [&_tr]:border-[#D7DBEC]">
+            <TableRow className="">
               <TableHead className="w-12">
                 <Checkbox
                   checked={isAllSelected}
                   onCheckedChange={handleSelectAll}
                   aria-label="Select all"
-                  className="data-[state=checked]:bg-[#4EA674] data-[state=checked]:border-[#4EA674]"
+                  className="h-5 w-5 border-[#D7DBEC] data-[state=checked]:bg-[#4EA674] data-[state=checked]:border-[#4EA674]"
                 />
               </TableHead>
-              <TableHead className="text-[#023337] font-semibold">
+              <TableHead className="text-[#5A607F] py-4 text-[16px]">
                 Coupon Name
               </TableHead>
-              <TableHead className="text-[#023337] font-semibold">
+              <TableHead className="text-[#5A607F] py-4 text-[16px]">
                 Usage
               </TableHead>
-              <TableHead className="text-[#023337] font-semibold">
+              <TableHead className="text-[#5A607F] py-4 text-[16px]">
                 Status
               </TableHead>
-              <TableHead className="text-[#023337] font-semibold">
+              <TableHead className="text-[#5A607F] py-4 text-[16px]">
                 Date
               </TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody className="[&_tr]:h-16">
+          <TableBody className="[&_tr]:h-[72px]">
             {filteredCoupons.map((coupon) => (
-              <TableRow key={coupon.id} className="cursor-pointer">
+              <TableRow
+                key={coupon.id}
+                className="cursor-pointer border-b border-[#D7DBEC]"
+              >
                 <TableCell onClick={(e) => e.stopPropagation()}>
                   <Checkbox
                     checked={selectedCoupons.includes(coupon.id)}
@@ -293,13 +329,13 @@ export default function Coupons() {
                       handleSelectCoupon(coupon.id, checked as boolean)
                     }
                     aria-label={`Select ${coupon.name}`}
-                    className="data-[state=checked]:bg-[#4EA674] data-[state=checked]:border-[#4EA674]"
+                    className="h-5 w-5 border-[#D7DBEC] data-[state=checked]:bg-[#4EA674] data-[state=checked]:border-[#4EA674]"
                   />
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-3">
                     <div
-                      className={`flex h-10 w-10 items-center justify-center rounded ${coupon.iconBg}`}
+                      className={`flex h-10 w-10 items-center justify-center rounded-lg ${coupon.iconBg}`}
                     >
                       {coupon.icon === "tag" ? (
                         <svg
@@ -339,30 +375,30 @@ export default function Coupons() {
                       )}
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-[#023337]">
+                      <div className="text-[14px] font-medium text-[#023337]">
                         {coupon.name}
                       </div>
-                      <div className="text-xs text-[#8B909A]">
+                      <div className="text-[14px] text-[#8B909A]">
                         {coupon.code}
                       </div>
                     </div>
                   </div>
                 </TableCell>
-                <TableCell className="text-sm text-[#023337]">
+                <TableCell className="text-[14px] text-[#023337]">
                   {coupon.usage}
                 </TableCell>
                 <TableCell>
                   <Badge
                     className={
                       coupon.status === "Active"
-                        ? "bg-[#C6F6D5] text-[#22543D] hover:bg-[#C6F6D5]"
-                        : "bg-[#E2E8F0] text-[#4A5568] hover:bg-[#E2E8F0]"
+                        ? "bg-[#C4F8E2] text-[#06A561] rounded-[5px] px-2 py-1 hover:bg-[#C4F8E2] font-normal"
+                        : "bg-[#5A607F] text-white rounded-[5px] px-2 py-1 hover:bg-[#5A607F] font-normal"
                     }
                   >
                     {coupon.status}
                   </Badge>
                 </TableCell>
-                <TableCell className="text-sm text-[#023337]">
+                <TableCell className="text-[14px] text-[#023337]">
                   {coupon.dateRange}
                 </TableCell>
               </TableRow>
@@ -372,7 +408,7 @@ export default function Coupons() {
       </div>
 
       {/* Pagination */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mt-[28px]">
         <Pagination>
           <PaginationContent>
             <PaginationItem>
@@ -411,7 +447,7 @@ export default function Coupons() {
             </PaginationItem>
           </PaginationContent>
         </Pagination>
-        <div className="text-sm text-[#8B909A]">120 Results</div>
+        <div className="text-[16px] text-[#5A607F]">120 Results</div>
       </div>
     </div>
   );

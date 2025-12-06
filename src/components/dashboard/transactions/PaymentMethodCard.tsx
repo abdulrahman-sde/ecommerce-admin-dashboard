@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { MoreVertical, Plus } from "lucide-react";
 import type { PaymentCard } from "@/types";
+import cardBgImage from "@/assets/images/card.svg";
 
 type PaymentMethodCardProps = {
   card: PaymentCard;
@@ -22,13 +23,14 @@ export default function PaymentMethodCard({ card }: PaymentMethodCardProps) {
       <CardContent className="space-y-4">
         {/* Credit Card */}
         <div className="flex gap-8 flex-col sm:flex-row sm:items-center ">
-          <div
-            className="relative w-[280px] h-[172px]  rounded-2xl p-6 text-white overflow-hidden"
-            style={{
-              backgroundImage: "url('/src/assets/images/card.svg')",
-              backgroundSize: "cover",
-            }}
-          >
+          <div className="relative w-[280px] h-[172px] rounded-2xl p-6 text-white overflow-hidden">
+            {/* Background Image */}
+            <img
+              src={cardBgImage}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+
             {/* Card overlay for better text visibility */}
             <div className="absolute inset-0 bg-linear-to-br from-[#4EA674]/20 to-transparent" />
 
