@@ -54,7 +54,7 @@ export default function ProductsTable({ products }: ProductsTableProps) {
     <div className="space-y-6">
       {/* Tabs */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1 bg-muted rounded-lg p-1">
+        <div className="flex items-center gap-1 bg-fade-green rounded-lg p-1">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -75,13 +75,13 @@ export default function ProductsTable({ products }: ProductsTableProps) {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
             <Input placeholder="Search your product" className="pl-9 w-60" />
           </div>
-          <Button variant="outline" size="icon">
+          <Button className="border-neutral-300" variant="outline" size="icon">
             <SlidersHorizontal className="size-4" />
           </Button>
           <Button size="icon" className="bg-[#4EA674] hover:bg-[#3d8a5e]">
             <Plus className="size-4" />
           </Button>
-          <Button variant="outline" size="icon">
+          <Button className="border-neutral-300" variant="outline" size="icon">
             <MoreVertical className="size-4" />
           </Button>
         </div>

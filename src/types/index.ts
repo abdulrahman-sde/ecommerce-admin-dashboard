@@ -281,3 +281,24 @@ export type TransactionHistory = {
   method: string;
   status: string;
 };
+
+export type CustomerGrowthData = {
+  month: string;
+  returningCustomers: number;
+  newCustomers: number;
+}[];
+
+export type CustomerGrowthProps = {
+  data: CustomerGrowthData;
+};
+
+export type VisitorStatsItem = {
+  title: string;
+  value: string;
+  change: string;
+  isPositive: boolean;
+};
+
+export type VisitorStatsProps = {
+  data: VisitorStatsItem[];
+};

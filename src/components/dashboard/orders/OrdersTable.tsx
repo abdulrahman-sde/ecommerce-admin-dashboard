@@ -55,7 +55,7 @@ export function OrdersTable({ data }: OrdersTableProps) {
         <div className="p-4 pb-3 border-b border-[#D1D5DB]">
           <div className="flex items-center justify-between gap-4 flex-wrap">
             {/* Custom Tabs - Similar to WeeklyReport */}
-            <div className="flex items-center gap-1 bg-muted rounded-lg p-1">
+            <div className="flex items-center gap-1  rounded-lg p-1 bg-fade-green">
               <button
                 onClick={() => setActiveTab("all")}
                 className={`px-4 py-1.5 text-sm rounded-md transition-all ${
@@ -64,7 +64,7 @@ export function OrdersTable({ data }: OrdersTableProps) {
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                All order <span className="text-muted-foreground">(240)</span>
+                All order <span className="text-primary">(240)</span>
               </button>
               <button
                 onClick={() => setActiveTab("completed")}
@@ -107,13 +107,25 @@ export function OrdersTable({ data }: OrdersTableProps) {
                   className="pl-9 w-60"
                 />
               </div>
-              <Button variant="outline" size="icon">
+              <Button
+                variant="outline"
+                className="border-neutral-300"
+                size="icon"
+              >
                 <SlidersHorizontal className="size-4" />
               </Button>
-              <Button variant="outline" size="icon">
+              <Button
+                variant="outline"
+                className="border-neutral-300"
+                size="icon"
+              >
                 <ArrowUpDown className="size-4" />
               </Button>
-              <Button variant="outline" size="icon">
+              <Button
+                variant="outline"
+                className="border-neutral-300"
+                size="icon"
+              >
                 <MoreVertical className="size-4" />
               </Button>
             </div>
@@ -125,7 +137,7 @@ export function OrdersTable({ data }: OrdersTableProps) {
             <Table>
               <TableHeader className="[&_tr]:border-0 bg-[#EAF8E7] ">
                 <TableRow>
-                  <TableHead className="w-16 py-4 rounded-l-xl px-4">
+                  <TableHead className="w-16 py-4  rounded-l-xl px-6">
                     No.
                   </TableHead>
                   <TableHead className="w-20 py-4 ">Order Id</TableHead>
@@ -133,13 +145,15 @@ export function OrdersTable({ data }: OrdersTableProps) {
                   <TableHead className="w-32 py-4 ">Date</TableHead>
                   <TableHead className="w-24 py-4 ">Price</TableHead>
                   <TableHead className="w-32 py-4 ">Payment</TableHead>
-                  <TableHead className="w-28 py-4 ">Status</TableHead>
+                  <TableHead className="w-28 py-4 rounded-r-xl">
+                    Status
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className="[&_tr]:h-16 [&_tr]:border-b  ">
                 {filteredData.map((order, index) => (
                   <TableRow key={index}>
-                    <TableCell className="px-4">{index + 1}</TableCell>
+                    <TableCell className="px-6">{index + 1}</TableCell>
                     <TableCell className="px-4">{order.id}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-3 ps-5">

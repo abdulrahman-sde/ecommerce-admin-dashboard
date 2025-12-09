@@ -58,6 +58,7 @@ function PaginationLink({
           variant: isActive ? "outline" : "ghost",
           size,
         }),
+        `border-neutral-300 ${isActive && "bg-fade-green"}`,
         className
       )}
       {...props}

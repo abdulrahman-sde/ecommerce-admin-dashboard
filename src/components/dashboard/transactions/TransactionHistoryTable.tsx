@@ -9,7 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { SlidersHorizontal, Search } from "lucide-react";
 import type { TransactionHistory } from "@/types";
 import {
@@ -39,16 +38,13 @@ export default function TransactionHistoryTable({ transactions }: Props) {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case "complete":
-        return "bg-[#4EA674] text-white hover:bg-[#4EA674]/90";
+        return "text-[#21C45D]";
       case "canceled":
-        return "bg-red-500 text-white hover:bg-red-500/90";
+        return "text-[#EF4343]";
       case "pending":
-        return "bg-orange-500 text-white hover:bg-orange-500/90";
-      default:
-        return "bg-gray-500 text-white hover:bg-gray-500/90";
+        return "text-[#FBBD23]";
     }
   };
-
   return (
     <div className="bg-white rounded-lg border border-[#E5E7EB]">
       <div className="p-6">
@@ -94,32 +90,32 @@ export default function TransactionHistoryTable({ transactions }: Props) {
 
         {/* Table */}
         <Table>
-          <TableHeader>
-            <TableRow className="border-[#E5E7EB]">
-              <TableHead className="font-semibold text-gray-700">
+          <TableHeader className="[&_tr]:border-0 ">
+            <TableRow className="bg-fade-green ">
+              <TableHead className="font-semibold rounded-l-xl px-6 text-gray-700">
                 Customer Id
               </TableHead>
-              <TableHead className="font-semibold text-gray-700">
+              <TableHead className="font-semibold py-4 text-gray-700">
                 Name
               </TableHead>
-              <TableHead className="font-semibold text-gray-700">
+              <TableHead className="font-semibold py-4 text-gray-700">
                 Date
               </TableHead>
-              <TableHead className="font-semibold text-gray-700">
+              <TableHead className="font-semibold py-4 text-gray-700">
                 Total
               </TableHead>
-              <TableHead className="font-semibold text-gray-700">
+              <TableHead className="font-semibold py-4 text-gray-700">
                 Method
               </TableHead>
-              <TableHead className="font-semibold text-gray-700">
+              <TableHead className="font-semibold py-4 text-gray-700">
                 Status
               </TableHead>
-              <TableHead className="font-semibold text-gray-700">
+              <TableHead className="font-semibold py-4 text-gray-700 rounded-r-xl">
                 Action
               </TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
+          <TableBody className="[&_tr]:h-14 [&_tr]:border-b">
             {transactions.map((transaction) => (
               <TableRow key={transaction.id} className="border-[#E5E7EB]">
                 <TableCell className="text-gray-600">
@@ -137,13 +133,17 @@ export default function TransactionHistoryTable({ transactions }: Props) {
                 <TableCell className="text-gray-600">
                   {transaction.method}
                 </TableCell>
-                <TableCell>
-                  <Badge className={getStatusColor(transaction.status)}>
-                    {transaction.status}
-                  </Badge>
+                <TableCell
+                  className={
+                    getStatusColor(transaction.status) +
+                    " text-sm flex flex-row items-center mt-1 gap-1"
+                  }
+                >
+                  <p className="text-4xl -mt-1.5"> ·</p>
+                  {transaction.status}
                 </TableCell>
                 <TableCell>
-                  <button className="text-[#4EA674] hover:underline text-sm font-medium">
+                  <button className="text-tertiary hover:underline text-sm font-medium">
                     View Details
                   </button>
                 </TableCell>

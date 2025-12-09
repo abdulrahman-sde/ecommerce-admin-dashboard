@@ -1176,3 +1176,45 @@ export const transactionHistoryData = [
     status: "Canceled",
   },
 ];
+
+export const customerGrowthData = [
+  { month: "Jan", returningCustomers: 450, newCustomers: 340 },
+  { month: "Feb", returningCustomers: 370, newCustomers: 260 },
+  { month: "Mar", returningCustomers: 340, newCustomers: 170 },
+  { month: "Apr", returningCustomers: 430, newCustomers: 260 },
+  { month: "May", returningCustomers: 460, newCustomers: 200 },
+  { month: "Jun", returningCustomers: 360, newCustomers: 260 },
+  { month: "Jul", returningCustomers: 410, newCustomers: 190 },
+  { month: "Aug", returningCustomers: 430, newCustomers: 150 },
+  { month: "Sep", returningCustomers: 440, newCustomers: 190 },
+  { month: "Oct", returningCustomers: 400, newCustomers: 260 },
+  { month: "Nov", returningCustomers: 430, newCustomers: 150 },
+  { month: "Dec", returningCustomers: 430, newCustomers: 120 },
+];
+
+export const visitorStatsData = [
+  {
+    title: "Existing Users",
+    value: "5.653",
+    change: "22.45%",
+    isPositive: true,
+  },
+  {
+    title: "New Users",
+    value: "1.650",
+    change: "15.34%",
+    isPositive: true,
+  },
+  {
+    title: "Total Visits",
+    value: "9.504",
+    change: "18.25%",
+    isPositive: false,
+  },
+  {
+    title: "Unique Visits",
+    value: "5.423",
+    change: "10.24%",
+    isPositive: false,
+  },
+];
