@@ -4,11 +4,11 @@ import { customerGrowthData, visitorStatsData } from "@/constants/constants";
 
 export default function Reports() {
   return (
-    <div className="flex flex-col gap-6 p-6">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h2 className="text-2xl font-bold tracking-tight">Reports</h2>
         <div className="flex items-center gap-2">
-          <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-emerald-600/90 h-10 px-4 py-2 bg-[#42a36e] text-white">
+          <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-emerald-600/90 h-10 px-4 py-2 bg-[#42a36e] text-white w-full sm:w-auto">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -30,7 +30,7 @@ export default function Reports() {
         </div>
       </div>
 
-      <div className="w-full bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+      <div className="w-full bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100">
         <CustomerGrowth data={customerGrowthData} />
       </div>
       <VisitorStats data={visitorStatsData} />

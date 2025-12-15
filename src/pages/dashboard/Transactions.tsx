@@ -10,9 +10,10 @@ import {
 export default function Transactions() {
   return (
     <div className="space-y-6">
-      <div className="grid grid-col-1 md:grid-cols-2 gap-4">
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+      {/* Main Grid Container */}
+      <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,2fr)_minmax(350px,500px)] gap-4">
+        {/* Stats Grid - Takes flexible space on left */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 min-w-0">
           {transactionStatsData.map((stat, index) => (
             <StatCard
               key={index}
@@ -23,7 +24,9 @@ export default function Transactions() {
             />
           ))}
         </div>
-        <div className="md:col-span-2 lg:col-span-1 lg:row-span-2">
+
+        {/* Payment Card - Fixed width on large screens */}
+        <div className="xl:row-span-1">
           <PaymentMethodCard card={paymentCardData} />
         </div>
       </div>
