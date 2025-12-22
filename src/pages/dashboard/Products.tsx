@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,37 +20,25 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { productsListData } from "@/constants/constants";
-import { Search, Save, Plus } from "lucide-react";
-
-const ITEMS_PER_PAGE = 10;
+import { Search, Save, Plus, AlertCircle } from "lucide-react";
+import { ProductTableSkeleton } from "@/components/shared/ProductTableSkeleton";
+import { useProducts } from "@/hooks/products/useProducts";
 
 export default function Products() {
   const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
 
-  const totalPages = Math.ceil(productsListData.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentProducts = productsListData.slice(startIndex, endIndex);
-
-  const toggleProduct = (id: number) => {
-    setSelectedProducts((prev) =>
-      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
-    );
-  };
-
-  const toggleAll = () => {
-    if (selectedProducts.length === currentProducts.length) {
-      setSelectedProducts([]);
-    } else {
-      setSelectedProducts(currentProducts.map((p) => p.id));
-    }
-  };
+  const {
+    data,
+    isFetching,
+    isError,
+    error,
+    currentPage,
+    pages,
+    setCurrentPage,
+  } = useProducts();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-2">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <h1 className="text-2xl font-semibold text-[#111827]">Product List</h1>
@@ -85,83 +72,83 @@ export default function Products() {
       </div>
 
       {/* Table */}
-      <div className="bg-white border border-[#E5E7EB] rounded-lg overflow-hidden">
+      <div className="bg-white rounded-lg overflow-hidden">
         <Table>
-          <TableHeader>
-            <TableRow className="border-b border-[#E5E7EB] bg-[#F9FAFB]">
-              <TableHead className="w-12">
-                <Checkbox
-                  checked={selectedProducts.length === currentProducts.length}
-                  onCheckedChange={toggleAll}
-                />
+          <TableHeader className=" bg-white ">
+            <TableRow className="[&_th]:pt-8 [&_th]:pb-3 text-[15px] font-medium text-muted-foreground">
+              <TableHead className="w-12 ps-8">
+                <Checkbox className="w-4.5 h-4.5 bg-white mr-2" />
               </TableHead>
-              <TableHead className="text-[#6B7280] font-medium text-sm">
-                Product
-              </TableHead>
-              <TableHead className="text-[#6B7280] font-medium text-sm">
-                Inventory
-              </TableHead>
-              <TableHead className="text-[#6B7280] font-medium text-sm">
-                Color
-              </TableHead>
-              <TableHead className="text-[#6B7280] font-medium text-sm">
-                Price
-              </TableHead>
-              <TableHead className="text-[#6B7280] font-medium text-sm">
-                Rating
-              </TableHead>
+              <TableHead className="">Product</TableHead>
+              <TableHead className="">Inventory</TableHead>
+              <TableHead className="">Color</TableHead>
+              <TableHead className="">Price</TableHead>
+              <TableHead className="">Rating</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {currentProducts.map((product) => (
-              <TableRow
-                key={product.id}
-                className="border-b border-[#E5E7EB] hover:bg-[#F9FAFB]"
-              >
-                <TableCell>
-                  <Checkbox
-                    checked={selectedProducts.includes(product.id)}
-                    onCheckedChange={() => toggleProduct(product.id)}
-                  />
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-3">
-                    <div className="h-12 w-12 rounded-lg bg-[#F3F4F6] flex items-center justify-center text-2xl shrink-0">
-                      {product.image}
-                    </div>
-                    <div>
-                      <div className="text-sm font-medium text-[#111827]">
-                        {product.name}
-                      </div>
-                      <div className="text-xs text-[#6B7280]">
-                        {product.category}
-                      </div>
-                    </div>
+            {isFetching ? (
+              <ProductTableSkeleton rows={10} />
+            ) : isError ? (
+              <TableRow>
+                <TableCell colSpan={6} className="h-24 text-center">
+                  <div className="flex flex-col items-center justify-center text-red-500 gap-2">
+                    <AlertCircle className="h-8 w-8" />
+                    <p className="font-medium">Failed to load products</p>
+                    <p className="text-sm text-muted-foreground">
+                      {(error as any)?.data?.message || "Internal Server Error"}
+                    </p>
                   </div>
                 </TableCell>
-                <TableCell className="text-sm text-[#6B7280]">
-                  {product.inStock ? (
-                    <span>{product.inventory}</span>
-                  ) : (
-                    <Badge
-                      variant="secondary"
-                      className="bg-[#F3F4F6] text-[#6B7280] hover:bg-[#F3F4F6]"
-                    >
-                      Out of Stock
-                    </Badge>
-                  )}
-                </TableCell>
-                <TableCell className="text-sm text-[#6B7280]">
-                  {product.color}
-                </TableCell>
-                <TableCell className="text-sm text-[#111827] font-medium">
-                  {product.price}
-                </TableCell>
-                <TableCell className="text-sm text-[#6B7280]">
-                  {product.rating}
-                </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              data?.data.map((product) => (
+                <TableRow
+                  key={product.id}
+                  className="border-b border-[#E5E7EB] hover:bg-[#F9FAFB] [&_td]:py-3 text-table-text-color"
+                >
+                  <TableCell className="ps-8">
+                    <Checkbox className="w-4.5 h-4.5 bg-white mr-2" />
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-3">
+                      <div className="h-11 w-11 rounded-lg bg-[#F3F4F6] flex items-center justify-center overflow-hidden text-2xl shrink-0">
+                        <img
+                          src={product.images[0]}
+                          alt=""
+                          className="object-cover w-full h-full cursor-pointer "
+                        />
+                      </div>
+                      <div>
+                        <div className="text-[15px] font-medium ">
+                          {product.name}
+                        </div>
+                        <div className="text-[12px] text-muted-foreground ">
+                          {product.category.name}
+                        </div>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-sm">
+                    {product.stockQuantity > 0 ? (
+                      <span>{product.stockQuantity} in stock</span>
+                    ) : (
+                      <Badge
+                        variant="secondary"
+                        className="bg-[#F3F4F6] text-[#6B7280] hover:bg-[#F3F4F6]"
+                      >
+                        Out of Stock
+                      </Badge>
+                    )}
+                  </TableCell>
+                  <TableCell className="text-sm">{product.colors[0]}</TableCell>
+                  <TableCell className="text-sm text-[#111827] font-medium">
+                    {product.price}
+                  </TableCell>
+                  <TableCell className="text-sm">5</TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </div>
@@ -172,47 +159,34 @@ export default function Products() {
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 className={
-                  currentPage === 1
+                  !data?.pagination.hasPrevPage
                     ? "pointer-events-none opacity-50"
                     : "cursor-pointer"
                 }
+                onClick={() => setCurrentPage(currentPage - 1)}
               />
             </PaginationItem>
-            {[1, 2, 3, 4, 5, 6].map((pageNum) => (
-              <PaginationItem key={pageNum}>
-                <PaginationLink
-                  onClick={() => setCurrentPage(pageNum)}
-                  isActive={currentPage === pageNum}
-                  className={
-                    currentPage === pageNum
-                      ? "bg-[#4EA674] text-white hover:bg-[#4EA674] hover:text-white"
-                      : "cursor-pointer"
-                  }
-                >
-                  {pageNum}
-                </PaginationLink>
+            {pages.map((page, idx) => (
+              <PaginationItem key={idx}>
+                {page === "..." ? (
+                  <PaginationEllipsis />
+                ) : (
+                  <PaginationLink
+                    isActive={currentPage === page}
+                    onClick={() => setCurrentPage(page as number)}
+                    className="cursor-pointer"
+                  >
+                    {page}
+                  </PaginationLink>
+                )}
               </PaginationItem>
             ))}
             <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink
-                onClick={() => setCurrentPage(24)}
-                className="cursor-pointer"
-              >
-                24
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
               <PaginationNext
-                onClick={() =>
-                  setCurrentPage((p) => Math.min(totalPages, p + 1))
-                }
+                onClick={() => setCurrentPage(currentPage + 1)}
                 className={
-                  currentPage === totalPages
+                  !data?.pagination.hasNextPage
                     ? "pointer-events-none opacity-50"
                     : "cursor-pointer"
                 }
@@ -220,7 +194,7 @@ export default function Products() {
             </PaginationItem>
           </PaginationContent>
         </Pagination>
-        <div className="text-sm text-[#6B7280]">146 Results</div>
+        <div className="text-sm text-[#6B7280]">{data?.meta?.all} Results</div>
       </div>
     </div>
   );

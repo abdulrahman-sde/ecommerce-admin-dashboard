@@ -1,7 +1,16 @@
-import { useState } from "react";
+import { useAddProduct } from "@/hooks/products/useAddProduct";
+import { useCategory } from "@/hooks/useCategory";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -10,468 +19,690 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Card } from "@/components/ui/card";
-import { Search, Save, Plus, Edit, Wand2, X } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import {
+  CalendarIcon,
+  Search,
+  Plus,
+  Save,
+  Image as ImageIcon,
+  X,
+  RotateCw,
+} from "lucide-react";
+import ReactCountryFlag from "react-country-flag";
+import { useRef } from "react";
 
-export default function AddProducts() {
-  const [productName, setProductName] = useState("iPhone 15");
-  const [productDescription, setProductDescription] = useState(
-    "The iPhone 15 delivers cutting-edge performance with the A16 Bionic chip, an immersive Super Retina XDR display, advanced dual-camera system, and exceptional battery life, all encased in stunning aerospace-grade aluminum."
-  );
-  const [productPrice, setProductPrice] = useState("999.89");
-  const [discountedPrice, setDiscountedPrice] = useState("99");
-  const [salePrice] = useState("900.89");
-  const [stockQuantity, setStockQuantity] = useState("Unlimited");
-  const [isUnlimited, setIsUnlimited] = useState(true);
-  const [isFeatured, setIsFeatured] = useState(true);
-  const [taxIncluded, setTaxIncluded] = useState(true);
-  const [mainImage] = useState("📱");
-  const [additionalImages] = useState(["📱", "📱"]);
+export default function AddProductsPage() {
+  const {
+    form,
+    onSubmit,
+    imagePreviews,
+    onImageUpload,
+    onReplaceImage,
+    removeImage,
+  } = useAddProduct();
+  const { data: categories } = useCategory();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const replaceInputRef = useRef<HTMLInputElement>(null);
 
-  const colors = [
-    { name: "Green", color: "#D4E8D4" },
-    { name: "Pink", color: "#F5D4D4" },
-    { name: "Gray", color: "#D4D8DD" },
-    { name: "Yellow", color: "#F5EDD4" },
-    { name: "Black", color: "#3F3F3F" },
-  ];
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
+
+  const triggerReplaceInput = () => {
+    replaceInputRef.current?.click();
+  };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <h1 className="text-2xl font-semibold text-[#111827]">
-          Add New Product
-        </h1>
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
-          <div className="relative flex-1 sm:flex-none">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#9CA3AF]" />
-            <Input
-              placeholder="Search product for add"
-              className="pl-10 w-full sm:w-64 border-[#E5E7EB] text-sm"
-            />
-          </div>
-          <Button className="bg-[#4EA674] hover:bg-[#3d8a5e] text-white">
-            <span className="hidden sm:inline">Publish Product</span>
-            <span className="sm:hidden">Publish</span>
-          </Button>
-          <Button variant="outline" className="border-[#E5E7EB] hidden md:flex">
-            <Save className="h-4 w-4 mr-2" />
-            Save to draft
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="border-[#E5E7EB] hidden md:flex"
-          >
-            <Plus className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Basic Details */}
-          <Card className="p-6 border-[#E5E7EB]">
-            <h2 className="text-lg font-semibold text-[#111827] mb-6">
-              Basic Details
-            </h2>
-
-            <div className="space-y-4">
-              <div>
-                <Label
-                  htmlFor="productName"
-                  className="text-sm text-[#374151] mb-2 block"
-                >
-                  Product Name
-                </Label>
+    <div className="p-6 max-w-[1600px] mx-auto space-y-8">
+      <Form {...form}>
+        <form onSubmit={onSubmit}>
+          {/* Header */}
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
+            <h1 className="text-2xl font-semibold text-[#111827]">
+              Add New Product
+            </h1>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
+              <div className="relative w-full sm:w-auto">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
-                  id="productName"
-                  value={productName}
-                  onChange={(e) => setProductName(e.target.value)}
-                  className="border-[#E5E7EB] bg-[#F9FAFB]"
+                  placeholder="Search product for add"
+                  className="pl-9 w-full sm:w-[300px]"
                 />
               </div>
-
-              <div>
-                <Label
-                  htmlFor="productDescription"
-                  className="text-sm text-[#374151] mb-2 block"
+              <div className="flex items-center gap-3 w-full sm:w-auto flex-wrap sm:flex-nowrap">
+                <Button
+                  type="submit"
+                  className="bg-[#4EA674] hover:bg-[#3d8a5e] text-white flex-1 sm:flex-none whitespace-nowrap"
                 >
-                  Product Description
-                </Label>
-                <div className="relative">
-                  <Textarea
-                    id="productDescription"
-                    value={productDescription}
-                    onChange={(e) => setProductDescription(e.target.value)}
-                    className="border-[#E5E7EB] bg-[#F9FAFB] min-h-[100px] text-blue-600 underline"
-                  />
-                  <div className="absolute bottom-3 right-3 flex gap-2">
-                    <button className="p-1.5 hover:bg-gray-100 rounded">
-                      <Edit className="h-4 w-4 text-[#6B7280]" />
-                    </button>
-                    <button className="p-1.5 hover:bg-gray-100 rounded">
-                      <Wand2 className="h-4 w-4 text-[#6B7280]" />
-                    </button>
-                  </div>
-                </div>
+                  Publish Product
+                </Button>
+                <Button
+                  variant="outline"
+                  className="bg-white border-gray-200 flex-1 sm:flex-none whitespace-nowrap"
+                >
+                  <Save className="h-4 w-4 mr-2" />
+                  Save to draft
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="bg-white border-gray-200 shrink-0"
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
               </div>
             </div>
-          </Card>
+          </div>
 
-          {/* Pricing */}
-          <Card className="p-6 border-[#E5E7EB]">
-            <h2 className="text-lg font-semibold text-[#111827] mb-6">
-              Pricing
-            </h2>
-
-            <div className="space-y-4">
-              <div>
-                <Label
-                  htmlFor="productPrice"
-                  className="text-sm text-[#374151] mb-2 block"
-                >
-                  Product Price
-                </Label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6B7280]">
-                    $
-                  </span>
-                  <Input
-                    id="productPrice"
-                    value={productPrice}
-                    onChange={(e) => setProductPrice(e.target.value)}
-                    className="pl-7 border-[#E5E7EB] bg-[#F9FAFB]"
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            {/* Left Column - Main Details */}
+            <div className="lg:col-span-8 space-y-8">
+              {/* Basic Details */}
+              <Card className="border-none shadow-sm">
+                <CardHeader>
+                  <CardTitle className="text-lg font-semibold">
+                    Basic Details
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          Product Name
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="iPhone 15"
+                            className="shadow-none border-none"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                    <img
-                      src="https://flagcdn.com/w40/us.png"
-                      alt="USD"
-                      className="h-4 w-6"
+
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          Product Description
+                        </FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Textarea
+                              placeholder="The iPhone 15 delivers cutting-edge performance..."
+                              className="min-h-40 resize-y pr-8 shadow-none border-none"
+                              {...field}
+                            />
+                            {/* Mock Rich Text Icons */}
+                            <div className="absolute bottom-3 right-3 flex items-center gap-2 text-gray-400">
+                              <div className="p-1 hover:bg-gray-100 rounded cursor-pointer">
+                                <svg
+                                  className="w-4 h-4"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                                  />
+                                </svg>
+                              </div>
+                              <div className="p-1 hover:bg-gray-100 rounded cursor-pointer">
+                                <svg
+                                  className="w-4 h-4"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                                  />
+                                </svg>
+                              </div>
+                            </div>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Pricing */}
+              <Card className="border-none shadow-sm">
+                <CardHeader>
+                  <CardTitle className="text-lg font-semibold">
+                    Pricing
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="price"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Product Price</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Input
+                              type="number"
+                              placeholder="$999.89"
+                              className="pr-16 shadow-none border-none"
+                              {...field}
+                            />
+                            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 bg-white px-2 py-1 rounded shadow-sm border border-gray-200 text-xs text-gray-600">
+                              <ReactCountryFlag countryCode="US" svg />
+                              <span className="text-[10px]">▼</span>
+                            </div>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="discountedPrice"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-gray-600">
+                            Discounted Price{" "}
+                            <span className="text-gray-400 font-normal">
+                              (Optional)
+                            </span>
+                          </FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                                $
+                              </div>
+                              <Input
+                                type="number"
+                                placeholder="99"
+                                className="pl-7 shadow-none border-none"
+                                {...field}
+                              />
+                              <div className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-500">
+                                Sale= $900.89
+                              </div>
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="taxIncluded"
+                      render={({ field }) => (
+                        <FormItem className="space-y-3">
+                          <FormLabel>Tax Included</FormLabel>
+                          <FormControl>
+                            <RadioGroup
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                              className="flex gap-6 mt-2"
+                            >
+                              <FormItem className="flex items-center space-x-2 space-y-0">
+                                <FormControl>
+                                  <RadioGroupItem value="yes" />
+                                </FormControl>
+                                <FormLabel className="font-normal cursor-pointer">
+                                  Yes
+                                </FormLabel>
+                              </FormItem>
+                              <FormItem className="flex items-center space-x-2 space-y-0">
+                                <FormControl>
+                                  <RadioGroupItem value="no" />
+                                </FormControl>
+                                <FormLabel className="font-normal cursor-pointer">
+                                  No
+                                </FormLabel>
+                              </FormItem>
+                            </RadioGroup>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
                   </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label
-                    htmlFor="discountedPrice"
-                    className="text-sm text-[#6B7280] mb-2 block"
-                  >
-                    Discounted Price{" "}
-                    <span className="text-[#9CA3AF]">(Optional)</span>
-                  </Label>
-                  <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6B7280]">
-                      $
-                    </span>
-                    <Input
-                      id="discountedPrice"
-                      value={discountedPrice}
-                      onChange={(e) => setDiscountedPrice(e.target.value)}
-                      className="pl-7 border-[#E5E7EB] bg-[#F9FAFB]"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <Label className="text-sm text-[#374151] mb-2 block">
-                    Tax Included
-                  </Label>
-                  <div className="space-y-2 pt-2">
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="radio"
-                        id="taxYes"
-                        checked={taxIncluded}
-                        onChange={() => setTaxIncluded(true)}
-                        className="h-4 w-4 text-[#4EA674]"
-                      />
-                      <Label
-                        htmlFor="taxYes"
-                        className="text-sm text-[#374151] font-normal"
-                      >
-                        Yes
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="radio"
-                        id="taxNo"
-                        checked={!taxIncluded}
-                        onChange={() => setTaxIncluded(false)}
-                        className="h-4 w-4"
-                      />
-                      <Label
-                        htmlFor="taxNo"
-                        className="text-sm text-[#374151] font-normal"
-                      >
-                        No
-                      </Label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg p-3">
-                <span className="text-sm text-[#6B7280]">Sale=</span>
-                <span className="text-sm font-semibold text-[#111827] ml-1">
-                  ${salePrice}
-                </span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label
-                    htmlFor="expirationStart"
-                    className="text-sm text-[#374151] mb-2 block"
-                  >
+              {/* Expiration */}
+              <Card className="border-none shadow-sm">
+                <CardHeader>
+                  <CardTitle className="text-lg font-semibold">
                     Expiration
-                  </Label>
-                  <Input
-                    id="expirationStart"
-                    type="date"
-                    placeholder="Start"
-                    className="border-[#E5E7EB] bg-[#F9FAFB]"
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="startDate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <Button
+                                  variant={"outline"}
+                                  className={cn(
+                                    "w-full justify-between text-left font-normal h-11 shadow-none border-none",
+                                    "bg-[#F9FAFB]", // Explicit bg to match inputs
+                                    !field.value && "text-muted-foreground"
+                                  )}
+                                >
+                                  {field.value ? (
+                                    format(field.value, "PPP")
+                                  ) : (
+                                    <span>Start</span>
+                                  )}
+                                  <CalendarIcon className="h-4 w-4 opacity-50" />
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-auto p-0">
+                                <Calendar
+                                  mode="single"
+                                  selected={field.value}
+                                  onSelect={field.onChange}
+                                  initialFocus
+                                />
+                              </PopoverContent>
+                            </Popover>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="endDate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <Button
+                                  variant={"outline"}
+                                  className={cn(
+                                    "w-full justify-between text-left font-normal h-11 shadow-none border-none",
+                                    "bg-[#F9FAFB]",
+                                    !field.value && "text-muted-foreground"
+                                  )}
+                                >
+                                  {field.value ? (
+                                    format(field.value, "PPP")
+                                  ) : (
+                                    <span>End</span>
+                                  )}
+                                  <CalendarIcon className="h-4 w-4 opacity-50" />
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-auto p-0">
+                                <Calendar
+                                  mode="single"
+                                  selected={field.value}
+                                  onSelect={field.onChange}
+                                  initialFocus
+                                />
+                              </PopoverContent>
+                            </Popover>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Inventory */}
+              <Card className="border-none shadow-sm">
+                <CardHeader>
+                  <CardTitle className="text-lg font-semibold">
+                    Inventory
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="stockQuantity"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Stock Quantity</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              placeholder="Unlimited"
+                              className="shadow-none border-none"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="stockStatus"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Stock Status</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger className="bg-[#F9FAFB] shadow-none border-none">
+                                <SelectValue placeholder="Select stock status" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="IN_STOCK">In Stock</SelectItem>
+                              <SelectItem value="OUT_OF_STOCK">
+                                Out of Stock
+                              </SelectItem>
+                              <SelectItem value="LOW_STOCK">
+                                Low Stock
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name="isUnlimited"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg p-0">
+                        <div className="flex items-center space-x-2">
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal cursor-pointer text-gray-600 mt-0!">
+                            Unlimited
+                          </FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
                   />
-                </div>
-                <div>
-                  <Label
-                    htmlFor="expirationEnd"
-                    className="text-sm text-[#374151] mb-2 block invisible"
-                  >
-                    End
-                  </Label>
-                  <Input
-                    id="expirationEnd"
-                    type="date"
-                    placeholder="End"
-                    className="border-[#E5E7EB] bg-[#F9FAFB]"
+
+                  <FormField
+                    control={form.control}
+                    name="isFeatured"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                            className="bg-green-500 border-green-500 text-white"
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel className="font-normal text-gray-500">
+                            Highlight this product in a featured section.
+                          </FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
                   />
-                </div>
-              </div>
-            </div>
-          </Card>
 
-          {/* Inventory */}
-          <Card className="p-6 border-[#E5E7EB]">
-            <h2 className="text-lg font-semibold text-[#111827] mb-6">
-              Inventory
-            </h2>
-
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label
-                    htmlFor="stockQuantity"
-                    className="text-sm text-[#374151] mb-2 block"
-                  >
-                    Stock Quantity
-                  </Label>
-                  <Input
-                    id="stockQuantity"
-                    value={stockQuantity}
-                    onChange={(e) => setStockQuantity(e.target.value)}
-                    disabled={isUnlimited}
-                    className="border-[#E5E7EB] bg-[#F9FAFB]"
-                  />
-                </div>
-                <div>
-                  <Label
-                    htmlFor="stockStatus"
-                    className="text-sm text-[#374151] mb-2 block"
-                  >
-                    Stock Status
-                  </Label>
-                  <Select defaultValue="in-stock">
-                    <SelectTrigger className="border-[#E5E7EB] bg-[#F9FAFB]">
-                      <SelectValue placeholder="Select status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="in-stock">In Stock</SelectItem>
-                      <SelectItem value="out-of-stock">Out of Stock</SelectItem>
-                      <SelectItem value="low-stock">Low Stock</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="unlimited"
-                  checked={isUnlimited}
-                  onCheckedChange={(checked) =>
-                    setIsUnlimited(checked as boolean)
-                  }
-                  className="data-[state=checked]:bg-[#4EA674] data-[state=checked]:border-[#4EA674]"
-                />
-                <Label
-                  htmlFor="unlimited"
-                  className="text-sm text-[#374151] font-normal"
-                >
-                  Unlimited
-                </Label>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="featured"
-                  checked={isFeatured}
-                  onCheckedChange={(checked) =>
-                    setIsFeatured(checked as boolean)
-                  }
-                  className="data-[state=checked]:bg-[#4EA674] data-[state=checked]:border-[#4EA674]"
-                />
-                <Label
-                  htmlFor="featured"
-                  className="text-sm text-[#374151] font-normal"
-                >
-                  Highlight this product in a featured section.
-                </Label>
-              </div>
+                  <div className="flex gap-4 pt-4">
+                    <Button
+                      variant="outline"
+                      className="bg-white border-gray-200"
+                    >
+                      <Save className="h-4 w-4 mr-2" />
+                      Save to draft
+                    </Button>
+                    <Button
+                      type="submit"
+                      className="bg-[#4EA674] hover:bg-[#3d8a5e] text-white"
+                    >
+                      Publish Product
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
 
-            <div className="mt-6 flex gap-3">
-              <Button variant="outline" className="border-[#E5E7EB]">
-                <Save className="h-4 w-4 mr-2" />
-                Save to draft
-              </Button>
-              <Button className="bg-[#4EA674] hover:bg-[#3d8a5e] text-white">
-                Publish Product
-              </Button>
-            </div>
-          </Card>
-        </div>
-
-        {/* Right Column */}
-        <div className="space-y-6">
-          {/* Upload Product Image */}
-          <Card className="p-6 border-[#E5E7EB]">
-            <h2 className="text-lg font-semibold text-[#111827] mb-6">
-              Upload Product Image
-            </h2>
-
-            <div className="space-y-4">
-              <div>
-                <Label className="text-sm text-[#374151] mb-2 block">
-                  Product Image
-                </Label>
-                <div className="border-2 border-dashed border-[#E5E7EB] rounded-lg p-6 text-center bg-[#F9FAFB]">
-                  <div className="flex justify-center mb-3">
-                    <div className="h-32 w-24 bg-white rounded-lg shadow-md flex items-center justify-center text-6xl">
-                      {mainImage}
+            {/* Right Column - Sidebar */}
+            <div className="lg:col-span-4 space-y-8">
+              {/* Upload Product Image */}
+              <Card className="border-none shadow-sm">
+                <CardHeader>
+                  <CardTitle className="text-lg font-semibold">
+                    Upload Product Image
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div>
+                    <FormLabel className="text-[#4EA674] text-sm font-medium mb-3 block">
+                      Product Image
+                    </FormLabel>
+                    <Input
+                      type="file"
+                      multiple
+                      className="hidden"
+                      ref={fileInputRef}
+                      onChange={onImageUpload}
+                      accept="image/*"
+                    />
+                    <Input
+                      type="file"
+                      multiple
+                      className="hidden"
+                      ref={replaceInputRef}
+                      onChange={onReplaceImage}
+                      accept="image/*"
+                    />
+                    <div className="border border-dashed border-gray-300 rounded-lg p-4 bg-[#F9FAFB] text-center">
+                      <div className="aspect-square relative flex flex-col items-center justify-center min-h-[200px]">
+                        {imagePreviews.length > 0 ? (
+                          <img
+                            src={imagePreviews[0]}
+                            alt="Product Preview"
+                            className="max-h-[200px] object-contain mb-4"
+                          />
+                        ) : (
+                          <div className="text-gray-400 mb-4">
+                            <ImageIcon className="h-16 w-16 mx-auto opacity-20" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex justify-between items-center mt-4">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          className="text-gray-500 bg-white border-gray-200"
+                          onClick={triggerFileInput}
+                        >
+                          <ImageIcon className="h-4 w-4 mr-2" />
+                          Browse
+                        </Button>
+                        {imagePreviews.length > 0 && (
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="text-gray-500 bg-white border-gray-200"
+                            onClick={triggerReplaceInput}
+                          >
+                            <RotateCw className="h-4 w-4 mr-2" />
+                            Replace
+                          </Button>
+                        )}
+                      </div>
                     </div>
                   </div>
-                  <div className="flex justify-center gap-3">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="border-[#E5E7EB]"
+
+                  <div className="grid grid-cols-3 gap-3">
+                    {imagePreviews.map((preview, idx) => (
+                      <div
+                        key={idx}
+                        className="relative aspect-square border border-gray-100 rounded-lg p-1 bg-white"
+                      >
+                        <img
+                          src={preview}
+                          alt={`Thumb ${idx}`}
+                          className="w-full h-full object-contain rounded"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeImage(idx)}
+                          className="absolute top-1 right-1 p-0.5 bg-white rounded-full shadow hover:bg-gray-100 border border-gray-100"
+                        >
+                          <X className="h-3 w-3 text-gray-500" />
+                        </button>
+                      </div>
+                    ))}
+                    <div
+                      onClick={triggerFileInput}
+                      className="aspect-square border border-dashed border-green-300 rounded-lg flex flex-col items-center justify-center text-green-600 hover:bg-green-50 cursor-pointer bg-[#F0FDF4]"
                     >
-                      <Search className="h-3 w-3 mr-2" />
-                      Browse
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="border-[#E5E7EB]"
-                    >
-                      <X className="h-3 w-3 mr-2" />
-                      Replace
-                    </Button>
+                      <div className="bg-green-100 p-1.5 rounded-full mb-1">
+                        <Plus className="h-4 w-4 text-green-600" />
+                      </div>
+                      <span className="text-xs font-medium">Add Image</span>
+                    </div>
                   </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
 
-              <div className="flex gap-3">
-                {additionalImages.map((img, idx) => (
-                  <div
-                    key={idx}
-                    className="relative border-2 border-[#E5E7EB] rounded-lg p-3 bg-white flex items-center justify-center text-3xl h-20 w-20"
-                  >
-                    {img}
-                    <button className="absolute -top-2 -right-2 h-5 w-5 bg-red-500 rounded-full flex items-center justify-center text-white">
-                      <X className="h-3 w-3" />
-                    </button>
+              {/* Categories */}
+              <Card className="border-none shadow-sm">
+                <CardHeader>
+                  <CardTitle className="text-lg font-semibold">
+                    Categories
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="categoryId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Product Categories</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="bg-[#F9FAFB] shadow-none border-none">
+                              <SelectValue placeholder="Select your product" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {categories?.data?.map((cat) => (
+                              <SelectItem key={cat.id} value={cat.id}>
+                                {cat.name}
+                              </SelectItem>
+                            ))}
+                            {!categories?.data?.length && (
+                              <SelectItem value="loading" disabled>
+                                Loading...
+                              </SelectItem>
+                            )}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="tagId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Product Tag</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="bg-[#F9FAFB] shadow-none border-none">
+                              <SelectValue placeholder="Select your product" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="new">New Arrival</SelectItem>
+                            <SelectItem value="sale">Best Seller</SelectItem>
+                            <SelectItem value="featured">Featured</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div>
+                    <FormLabel className="mb-3 block">
+                      Select your color
+                    </FormLabel>
+                    <div className="flex gap-3">
+                      {[
+                        "#d9f99d",
+                        "#fbcfe8",
+                        "#cbd5e1",
+                        "#fef3c7",
+                        "#374151",
+                      ].map((color) => (
+                        <div
+                          key={color}
+                          className="h-8 w-8 rounded-lg cursor-pointer shadow-sm hover:ring-2 hover:ring-offset-2 hover:ring-gray-300 transition-all border border-gray-100"
+                          style={{ backgroundColor: color }}
+                        />
+                      ))}
+                    </div>
                   </div>
-                ))}
-                <button className="border-2 border-dashed border-[#E5E7EB] rounded-lg h-20 w-20 flex items-center justify-center hover:bg-[#F9FAFB]">
-                  <div className="text-center">
-                    <Plus className="h-5 w-5 text-[#4EA674] mx-auto mb-1" />
-                    <span className="text-xs text-[#4EA674]">Add Image</span>
-                  </div>
-                </button>
-              </div>
+                </CardContent>
+              </Card>
             </div>
-          </Card>
-
-          {/* Categories */}
-          <Card className="p-6 border-[#E5E7EB]">
-            <h2 className="text-lg font-semibold text-[#111827] mb-6">
-              Categories
-            </h2>
-
-            <div className="space-y-4">
-              <div>
-                <Label
-                  htmlFor="productCategories"
-                  className="text-sm text-[#374151] mb-2 block"
-                >
-                  Product Categories
-                </Label>
-                <Select>
-                  <SelectTrigger className="border-[#E5E7EB] bg-[#F9FAFB]">
-                    <SelectValue placeholder="Select your product" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="electronics">Electronics</SelectItem>
-                    <SelectItem value="clothing">Clothing</SelectItem>
-                    <SelectItem value="accessories">Accessories</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label
-                  htmlFor="productTag"
-                  className="text-sm text-[#374151] mb-2 block"
-                >
-                  Product Tag
-                </Label>
-                <Select>
-                  <SelectTrigger className="border-[#E5E7EB] bg-[#F9FAFB]">
-                    <SelectValue placeholder="Select your product" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="new">New Arrival</SelectItem>
-                    <SelectItem value="sale">On Sale</SelectItem>
-                    <SelectItem value="featured">Featured</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <Label className="text-sm text-[#374151] mb-3 block">
-                  Select your color
-                </Label>
-                <div className="flex gap-2">
-                  {colors.map((colorItem, idx) => (
-                    <button
-                      key={idx}
-                      className="h-10 w-10 rounded-lg border-2 border-[#E5E7EB] hover:border-[#4EA674]"
-                      style={{ backgroundColor: colorItem.color }}
-                      title={colorItem.name}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </Card>
-        </div>
-      </div>
+          </div>
+        </form>
+      </Form>
     </div>
   );
 }

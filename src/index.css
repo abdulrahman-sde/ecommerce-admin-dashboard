@@ -14,6 +14,7 @@ body {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-fade-green:var(--fade-green);
+  --color-table-text-color:var(--table-text-color);
   --color-primary:var(--primary);
   --color-card: var(--card);
   --color-rise: var(--rise);
@@ -60,6 +61,7 @@ body {
   --fade-green:#EAF8E7;
   --tertiary:#6467F2;
   --card: oklch(1 0 0);
+  --table-text-color:#131523;
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
@@ -71,8 +73,8 @@ body {
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: #EF4343;
-  --border: #D1D5DB;
-  --input: #D1D5DB;
+  --border: #E5E7EB;
+  --input: #E5E7EB;
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -120,6 +122,18 @@ textarea,
 select {
   height: 40px;
   border-radius: 4px;
+  border: 1px solid #E5E7EB;
+  background-color: #F9FAFB;
+  outline: none;
+  box-shadow: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #4EA674;
+  box-shadow: none;
+  outline: none;
 }
 
 input::placeholder,

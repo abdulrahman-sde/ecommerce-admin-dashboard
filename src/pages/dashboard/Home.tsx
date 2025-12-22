@@ -17,7 +17,7 @@ import {
 
 export default function DashboardHome() {
   return (
-    <div className="max-w-[1200px] mx-auto">
+    <div className="">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
         {dashboardStats.map((stat, index) => (
           <StatsCard key={index} {...stat} className="shadow-sm border-0 " />

@@ -1,30 +1,22 @@
-"use client";
-
-import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import CategoryCard from "@/components/dashboard/categories/CategoryCard";
 import ProductsTable from "@/components/dashboard/categories/ProductsTable";
-import { categoriesData, productsListData } from "@/constants/constants";
-import { ChevronRight, Plus, MoreVertical } from "lucide-react";
+import { Plus, MoreVertical } from "lucide-react";
+import { useCategory } from "@/hooks/useCategory";
+import { Suspense } from "react";
+import { ProductTableSkeleton } from "@/components/shared/ProductTableSkeleton";
 
 export default function Categories() {
   const navigate = useNavigate();
-  const [visibleCategories, setVisibleCategories] = useState(8);
-
-  const handleLoadMore = () => {
-    setVisibleCategories((prev) => prev + 4);
-  };
-
+  const { data, isLoading, isError } = useCategory();
+  console.log(data);
   return (
     <div className="space-y-8 ">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <h2 className="text-2xl font-semibold text-[#111827]">Discover</h2>
-          <button className="h-8 w-8 rounded-full border border-[#E5E7EB] hover:border-[#4EA674] flex items-center justify-center hover:bg-[#4EA674]/5 transition-colors">
-            <ChevronRight className="h-4 w-4 text-[#6B7280]" />
-          </button>
         </div>
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <Button
@@ -43,27 +35,14 @@ export default function Categories() {
 
       {/* Categories Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {categoriesData.slice(0, visibleCategories).map((category) => (
+        {data?.data.map((category) => (
           <CategoryCard key={category.id} category={category} />
         ))}
       </div>
 
-      {/* Load More Button */}
-      {visibleCategories < categoriesData.length && (
-        <div className="flex justify-center pt-4">
-          <Button
-            variant="outline"
-            onClick={handleLoadMore}
-            className="border-[#E5E7EB] text-[#374151] hover:bg-[#F9FAFB]"
-          >
-            Load More Categories
-          </Button>
-        </div>
-      )}
-
       {/* Products Table Section */}
       <div className="mt-12">
-        <ProductsTable products={productsListData} />
+        <ProductsTable />
       </div>
     </div>
   );

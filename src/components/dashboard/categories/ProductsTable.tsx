@@ -10,6 +10,14 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import {
+  Search,
+  SlidersHorizontal,
+  Plus,
+  MoreVertical,
+  Edit,
+  Trash2,
+} from "lucide-react";
+import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
@@ -18,37 +26,21 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import {
-  Search,
-  SlidersHorizontal,
-  Plus,
-  MoreVertical,
-  Edit,
-  Trash2,
-} from "lucide-react";
-import type { ProductListItem } from "@/types";
+import { ProductTableSkeleton } from "@/components/shared/ProductTableSkeleton";
+import { useProducts } from "@/hooks/products/useProducts";
 
-const ITEMS_PER_PAGE = 10;
-
-type ProductsTableProps = {
-  products: ProductListItem[];
-};
-
-export default function ProductsTable({ products }: ProductsTableProps) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [activeTab, setActiveTab] = useState("all");
-
-  const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentProducts = products.slice(startIndex, endIndex);
-
-  const tabs = [
-    { id: "all", label: "All Product", count: 145 },
-    { id: "featured", label: "Featured Products", count: 0 },
-    { id: "sale", label: "On Sale", count: 0 },
-    { id: "out-of-stock", label: "Out of Stock", count: 0 },
-  ];
+export default function ProductsTable() {
+  const {
+    data,
+    isFetching,
+    currentPage,
+    pages,
+    tabs,
+    activeTab,
+    setActiveTab,
+    setCurrentPage,
+  } = useProducts();
+  console.log(data);
 
   return (
     <div className="space-y-6">
@@ -58,15 +50,20 @@ export default function ProductsTable({ products }: ProductsTableProps) {
           {tabs.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => {
+                setActiveTab(tab.id);
+                setCurrentPage(1);
+              }}
               className={`px-4 py-1.5 text-sm rounded-md transition-all ${
                 activeTab === tab.id
                   ? "bg-white shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              {tab.label}{" "}
-              <span className="text-muted-foreground">({tab.count})</span>
+              {tab.label}
+              <span className="text-muted-foreground">
+                ({data?.meta[tab.id]})
+              </span>
             </button>
           ))}
         </div>
@@ -88,107 +85,97 @@ export default function ProductsTable({ products }: ProductsTableProps) {
       </div>
 
       {/* Table */}
+
       <div className="overflow-x-auto">
         <Table>
-          <TableHeader className="[&_tr]:border-0 bg-[#EAF8E7]">
+          <TableHeader className="[&_tr]:border-0 bg-[#EAF8E7] min-w-screen">
             <TableRow>
-              <TableHead className="w-16 py-4 rounded-l-xl px-4">No.</TableHead>
+              <TableHead className="w-16 py-4 rounded-l-xl ps-8">No.</TableHead>
               <TableHead className="ps-8">Product</TableHead>
               <TableHead className="w-32 py-4">Inventory</TableHead>
               <TableHead className="w-24 py-4">Price</TableHead>
-              <TableHead className="w-28 py-4 text-right rounded-r-xl px-4">
+              <TableHead className="w-28 py-4 text-right rounded-r-xl px-4 pr-8">
                 Action
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="[&_tr]:h-16 [&_tr]:border-b">
-            {currentProducts.map((product, index) => (
-              <TableRow key={product.id}>
-                <TableCell className="px-4">{startIndex + index + 1}</TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-3 ps-5">
-                    <div className="size-8 flex items-center justify-center text-xl">
-                      {product.image}
-                    </div>
-                    <div>
-                      <div className="text-sm font-medium">{product.name}</div>
-                      <div className="text-xs text-muted-foreground">
-                        {product.category}
+            {isFetching ? (
+              <ProductTableSkeleton />
+            ) : (
+              <>
+                {data?.data.map((product, index) => (
+                  <TableRow key={product.id}>
+                    <TableCell className="px-8">{index + 1}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-3 ps-5">
+                        <div className="size-8 flex items-center justify-center text-xl">
+                          <img src={product.images[0]} alt="" />
+                        </div>
+                        <div>
+                          <div className="text-sm font-medium">
+                            {product.name}
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            {product.category.name}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell className="text-muted-foreground">
-                  {product.inventory}
-                </TableCell>
-                <TableCell className="px-4">{product.price}</TableCell>
-                <TableCell>
-                  <div className="flex items-center justify-end gap-2 px-4">
-                    <button className="p-1.5 hover:bg-muted rounded transition-colors">
-                      <Edit className="size-4 text-muted-foreground" />
-                    </button>
-                    <button className="p-1.5 hover:bg-muted rounded transition-colors">
-                      <Trash2 className="size-4 text-muted-foreground" />
-                    </button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+                    </TableCell>
+                    <TableCell className="text-muted-foreground">
+                      {product.stockQuantity}
+                    </TableCell>
+                    <TableCell className="px-4">{product.price}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center justify-end gap-2 px-4">
+                        <button className="p-1.5 hover:bg-muted rounded transition-colors">
+                          <Edit className="size-4 text-muted-foreground" />
+                        </button>
+                        <button className="p-1.5 hover:bg-muted rounded transition-colors">
+                          <Trash2 className="size-4 text-muted-foreground" />
+                        </button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </>
+            )}
           </TableBody>
         </Table>
       </div>
 
-      {/* Pagination */}
       <Pagination>
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               className={
-                currentPage === 1
+                !data?.pagination.hasPrevPage
                   ? "pointer-events-none opacity-50"
                   : "cursor-pointer"
               }
+              onClick={() => setCurrentPage(currentPage - 1)}
             />
           </PaginationItem>
-          {[...Array(Math.min(5, totalPages))].map((_, i) => {
-            const pageNum = i + 1;
-            return (
-              <PaginationItem key={pageNum}>
-                <PaginationLink
-                  onClick={() => setCurrentPage(pageNum)}
-                  isActive={currentPage === pageNum}
-                  className={
-                    currentPage === pageNum
-                      ? "bg-[#4EA674] text-white hover:bg-[#4EA674] hover:text-white"
-                      : "cursor-pointer"
-                  }
-                >
-                  {pageNum}
-                </PaginationLink>
-              </PaginationItem>
-            );
-          })}
-          {totalPages > 5 && (
-            <>
-              <PaginationItem>
+          {pages.map((page, idx) => (
+            <PaginationItem key={idx}>
+              {page === "..." ? (
                 <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
+              ) : (
                 <PaginationLink
-                  onClick={() => setCurrentPage(totalPages)}
+                  isActive={currentPage === page}
+                  onClick={() => setCurrentPage(page as number)}
                   className="cursor-pointer"
                 >
-                  {totalPages}
+                  {page}
                 </PaginationLink>
-              </PaginationItem>
-            </>
-          )}
+              )}
+            </PaginationItem>
+          ))}
           <PaginationItem>
             <PaginationNext
-              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              onClick={() => setCurrentPage(currentPage + 1)}
               className={
-                currentPage === totalPages
+                !data?.pagination.hasNextPage
                   ? "pointer-events-none opacity-50"
                   : "cursor-pointer"
               }

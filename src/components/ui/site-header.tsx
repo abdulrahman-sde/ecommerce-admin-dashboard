@@ -9,7 +9,7 @@ export function SiteHeader() {
   const pathname = useLocation().pathname.split("/")[2] || "dashboard";
   console.log("pathname:", pathname);
   return (
-    <header className="flex h-[70px]  md:h-[79px]  -mt-1.5 items-center  bg-white">
+    <header className="flex h-[70px]  md:h-[79px]  -mt-1.5 items-center  bg-white sticky top-0 z-50 ">
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
         <SidebarTrigger className="-ml-1" />
         <Separator

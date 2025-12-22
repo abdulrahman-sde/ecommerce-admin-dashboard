@@ -1,4 +1,10 @@
+import { useGetProductsQuery } from "@/lib/store/services/products/productsApi";
+
 export default function Login() {
+  const { data, isLoading, error } = useGetProductsQuery({});
+  console.log(isLoading);
+  console.log(error?.data);
+  console.log(data?.data);
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
