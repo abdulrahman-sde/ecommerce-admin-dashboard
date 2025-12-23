@@ -34,6 +34,8 @@ import { useCoupons } from "@/hooks/coupons/useCoupons";
 import { format } from "date-fns";
 import { CouponsTableSkeleton as CouponsSkeleton } from "@/components/shared/skeletons";
 
+import type { CouponStatus } from "@/types/coupons.types";
+
 export default function Coupons() {
   const navigate = useNavigate();
   const {
@@ -55,7 +57,7 @@ export default function Coupons() {
     if (value === "ALL") {
       setStatus(undefined);
     } else {
-      setStatus(value as any);
+      setStatus(value as CouponStatus);
     }
   };
 

@@ -16,7 +16,6 @@ export default function Users() {
               value={stat.value}
               change={stat.change}
               subtitle={stat.subtitle}
-              showMenu
             />
           ))}
         </div>

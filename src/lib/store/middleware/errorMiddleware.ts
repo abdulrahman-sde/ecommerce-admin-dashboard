@@ -2,7 +2,7 @@ import type { ApiError } from "@/types/shared.types";
 import { isRejectedWithValue } from "@reduxjs/toolkit";
 import { toast } from "sonner";
 import type { Middleware } from "@reduxjs/toolkit";
-export const rtkQueryErrorLogger: Middleware = (_api) => (next) => (action) => {
+export const rtkQueryErrorLogger: Middleware = () => (next) => (action) => {
   if (isRejectedWithValue(action)) {
     // 1. Extract the JSON body returned by your Express errorHandler
     const payload = action.payload as { status: number; data: ApiError };

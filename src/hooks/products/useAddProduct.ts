@@ -21,6 +21,7 @@ export const useProductForm = (productId?: string) => {
     });
 
   const form = useForm<ProductFormValues>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(productSchema) as any,
     defaultValues: {
       name: "",
@@ -52,8 +53,8 @@ export const useProductForm = (productId?: string) => {
         isFeatured: product.isFeatured || false,
         categoryId:
           product.categoryId ||
-          (product.category as any)?.id ||
-          (product.category as any)?._id ||
+          product.category?.id ||
+          product.category?._id ||
           "",
         tagId: product.tags?.[0] || "",
         colors: product.colors || [],
@@ -136,7 +137,7 @@ export const useProductForm = (productId?: string) => {
     try {
       // Handle image uploads
       const uploadedImages = await Promise.all(
-        (data.images || []).map(async (image: any) => {
+        (data.images || []).map(async (image: string | File) => {
           if (image instanceof File) {
             return await uploadToCloudinary(image);
           }
@@ -164,6 +165,7 @@ export const useProductForm = (productId?: string) => {
       };
 
       if (productId) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { slug: _s, sku: _k, ...updateData } = productData;
         await updateProduct({ id: productId, ...updateData }).unwrap();
         toast.success("Product updated successfully");

@@ -36,20 +36,19 @@ export const useAddCategory = (categoryId?: string) => {
     });
 
   // Fetch products associated with this category using the products API
-  const { data: categoryProductsData, isLoading: _isLoadingProducts } =
-    useGetProductsQuery(
-      {
-        categoryId: categoryId || "",
-        limit: 100, // Fetch a reasonable number of products for the edit view
-      },
-      {
-        skip: !categoryId,
-      }
-    );
+  const { data: categoryProductsData } = useGetProductsQuery(
+    {
+      categoryId: categoryId || "",
+      limit: 100, // Fetch a reasonable number of products for the edit view
+    },
+    {
+      skip: !categoryId,
+    }
+  );
 
   // Extract products from the separate products query
   const products: CategoryProduct[] = categoryProductsData?.data
-    ? categoryProductsData.data.map((p: any) => ({
+    ? categoryProductsData.data.map((p) => ({
         id: p.id,
         name: p.name,
         image: p.images?.[0] || p.thumbnail || "",
@@ -61,6 +60,7 @@ export const useAddCategory = (categoryId?: string) => {
   const categoryData = existingCategory?.data || null;
 
   const form = useForm<CategoryFormValues>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(categorySchema) as any,
     defaultValues: {
       name: "",
@@ -197,9 +197,10 @@ export const useAddCategory = (categoryId?: string) => {
         colors: [],
       }).unwrap();
       toast.success("Product added to category!");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Failed to add product:", error);
-      toast.error(error?.data?.message || "Failed to add product");
+      const apiError = error as { data?: { message?: string } };
+      toast.error(apiError?.data?.message || "Failed to add product");
       throw error; // Rethrow to let dialog handle it
     }
   };

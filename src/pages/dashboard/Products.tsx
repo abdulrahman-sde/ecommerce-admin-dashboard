@@ -93,7 +93,8 @@ export default function Products() {
                     <AlertCircle className="h-8 w-8" />
                     <p className="font-medium">Failed to load products</p>
                     <p className="text-[14px] text-muted-foreground">
-                      {(error as any)?.data?.message || "Internal Server Error"}
+                      {(error as { data?: { message?: string } })?.data
+                        ?.message || "Internal Server Error"}
                     </p>
                   </div>
                 </TableCell>

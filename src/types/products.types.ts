@@ -1,6 +1,8 @@
 import type { PaginatedApiResponseWithMeta } from "./shared.types";
 
 export interface Category {
+  id?: string;
+  _id?: string;
   name: string;
 }
 
