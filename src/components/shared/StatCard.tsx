@@ -48,11 +48,11 @@ export function StatCard({
           )}
           {/* {!change && <h2 className="text-2xl font-semibold">{value}</h2>} */}
         </div>
-        {showMenu && (
+        {/* {showMenu && (
           <Button variant="ghost" size="icon" className="h-8 w-8">
             <MoreVertical className="h-4 w-4" />
           </Button>
-        )}
+        )} */}
       </CardHeader>
       <CardContent className="-mt-5">
         <p className="text-[14px] text-muted-foreground">{subtitle}</p>

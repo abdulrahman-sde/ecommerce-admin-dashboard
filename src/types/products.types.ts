@@ -1,7 +1,4 @@
-import type {
-  PaginatedApiResponse,
-  PaginatedApiResponseWithMeta,
-} from "./shared.types";
+import type { PaginatedApiResponseWithMeta } from "./shared.types";
 
 export interface Category {
   name: string;
@@ -27,8 +24,10 @@ export interface Product {
   totalSales: number;
   totalRevenue: number;
   viewCount: number;
-  status: "DRAFT" | "PUBLISHED" | string;
+  status: "DRAFT" | "ACTIVE" | "INACTIVE" | string;
   isFeatured: boolean;
+  expirationStart?: string;
+  expirationEnd?: string;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
@@ -47,8 +46,23 @@ export interface ProductsQueryParams {
   limit?: number;
   search?: string;
   categoryId?: string;
+  status?: "ACTIVE" | "INACTIVE" | "DRAFT";
   isFeatured?: boolean;
   hasDiscount?: boolean;
-  stockStatus?: "IN_STOCK" | "OUT_OF_STOCK" | undefined;
+  stockStatus?: "IN_STOCK" | "LOW_STOCK" | "OUT_OF_STOCK";
+  sortBy?: "createdAt" | "price" | "stockQuantity" | "totalSales";
+  sortOrder?: "asc" | "desc";
 }
 export type GetProductsResponse = PaginatedApiResponseWithMeta<Product[], Meta>;
+
+export type ProductListItem = {
+  id: number;
+  name: string;
+  category: string;
+  image: string;
+  inventory: string;
+  color: string;
+  price: string;
+  rating: string;
+  inStock: boolean;
+};

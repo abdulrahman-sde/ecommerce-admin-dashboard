@@ -1,33 +1,17 @@
 import { api } from "../api";
 import type { ProductsQueryParams } from "@/types/products.types";
 import type { GetProductsResponse, Product } from "@/types/products.types";
+import type { ApiResponse } from "@/types/shared.types";
 
 export const productsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     // Get all products with filters
 
     getProducts: builder.query<GetProductsResponse, ProductsQueryParams>({
-      query: ({
-        page = 1,
-        limit = 10,
-        search,
-        categoryId,
-        isFeatured,
-        hasDiscount,
-        stockStatus,
-      }) => {
-        const params = new URLSearchParams({
-          page: page.toString(),
-          limit: limit.toString(),
-        });
-        if (search) params.append("search", search);
-        if (categoryId) params.append("categoryId", categoryId);
-        if (isFeatured) params.append("isFeatured", isFeatured.toString());
-        if (hasDiscount) params.append("hasDiscount", hasDiscount.toString());
-        if (stockStatus) params.append("stockStatus", stockStatus.toString());
-
-        return `/products?${params.toString()}`;
-      },
+      query: (params) => ({
+        url: "/products",
+        params,
+      }),
       providesTags: (result) =>
         result?.data
           ? [
@@ -42,16 +26,16 @@ export const productsApi = api.injectEndpoints({
 
     // Get single product
 
-    getProduct: builder.query<Product, string>({
-      query: (id) => `/product/${id}`,
-      providesTags: (result, error, id) => [{ type: "Product", id }],
+    getProduct: builder.query<ApiResponse<Product>, string>({
+      query: (id) => `/products/${id}`,
+      providesTags: (_result, _error, id) => [{ type: "Product", id }],
     }),
 
     // Add product
 
-    addProduct: builder.mutation<Product, Partial<Product>>({
+    addProduct: builder.mutation<ApiResponse<Product>, Partial<Product>>({
       query: (body) => ({
-        url: "/product",
+        url: "/products",
         method: "POST",
         body,
       }),
@@ -64,24 +48,28 @@ export const productsApi = api.injectEndpoints({
 
     // Update product
 
-    updateProduct: builder.mutation<Product, { id: string } & Partial<Product>>(
-      {
-        query: ({ id, ...body }) => ({
-          url: `/product/${id}`,
-          method: "PUT",
-          body,
-        }),
-        invalidatesTags: (result, error, { id }) => [{ type: "Product", id }],
-      }
-    ),
+    updateProduct: builder.mutation<
+      ApiResponse<Product>,
+      { id: string } & Partial<Product>
+    >({
+      query: ({ id, ...body }) => ({
+        url: `/products/${id}`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: (_result, _error, { id }) => [
+        { type: "Product", id },
+        { type: "Products", id: "LIST" },
+      ],
+    }),
 
     // Delete product
     deleteProduct: builder.mutation<void, string>({
       query: (id) => ({
-        url: `/product/${id}`,
+        url: `/products/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: (result, error, id) => [
+      invalidatesTags: (_result, _error, id) => [
         { type: "Product", id },
         { type: "Products", id: "LIST" },
       ],
@@ -107,7 +95,7 @@ export const productsApi = api.injectEndpoints({
         method: "PATCH",
         body: { stock },
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Product", id }],
+      invalidatesTags: (_result, _error, { id }) => [{ type: "Product", id }],
     }),
   }),
 });

@@ -21,7 +21,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Search, Save, Plus, AlertCircle } from "lucide-react";
-import { ProductTableSkeleton } from "@/components/shared/ProductTableSkeleton";
+import { ProductsTableSkeleton } from "@/components/shared/skeletons";
 import { useProducts } from "@/hooks/products/useProducts";
 
 export default function Products() {
@@ -57,16 +57,13 @@ export default function Products() {
             <Plus className="h-4 w-4 sm:mr-2" />
             <span className="hidden sm:inline">Add Product</span>
           </Button>
-          <Button variant="outline" className="border-[#E5E7EB] hidden md:flex">
-            <Save className="h-4 w-4 mr-2" />
-            Save to draft
-          </Button>
           <Button
             variant="outline"
-            size="icon"
-            className="border-[#E5E7EB] hidden md:flex"
+            disabled={true}
+            className="border-[#E5E7EB] hidden md:flex "
           >
-            <Plus className="h-4 w-4" />
+            <Save className="h-4 w-4 mr-2" />
+            Save to draft
           </Button>
         </div>
       </div>
@@ -75,7 +72,7 @@ export default function Products() {
       <div className="bg-white rounded-lg overflow-hidden">
         <Table>
           <TableHeader className=" bg-white ">
-            <TableRow className="[&_th]:pt-8 [&_th]:pb-3 text-[15px] font-medium text-muted-foreground">
+            <TableRow className="[&_th]:pt-8 [&_th]:pb-3 text-[14px] [&_th]:text-muted-foreground">
               <TableHead className="w-12 ps-8">
                 <Checkbox className="w-4.5 h-4.5 bg-white mr-2" />
               </TableHead>
@@ -86,16 +83,16 @@ export default function Products() {
               <TableHead className="">Rating</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
+          <TableBody className="text-[14px]  ">
             {isFetching ? (
-              <ProductTableSkeleton rows={10} />
+              <ProductsTableSkeleton rows={10} />
             ) : isError ? (
               <TableRow>
                 <TableCell colSpan={6} className="h-24 text-center">
                   <div className="flex flex-col items-center justify-center text-red-500 gap-2">
                     <AlertCircle className="h-8 w-8" />
                     <p className="font-medium">Failed to load products</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-[14px] text-muted-foreground">
                       {(error as any)?.data?.message || "Internal Server Error"}
                     </p>
                   </div>
@@ -105,7 +102,7 @@ export default function Products() {
               data?.data.map((product) => (
                 <TableRow
                   key={product.id}
-                  className="border-b border-[#E5E7EB] hover:bg-[#F9FAFB] [&_td]:py-3 text-table-text-color"
+                  className="border-b inter-regular border-[#E5E7EB] hover:bg-[#F9FAFB] [&_td]:py-3 [&_td]:text-table-text-color [&_td]:inter-regular"
                 >
                   <TableCell className="ps-8">
                     <Checkbox className="w-4.5 h-4.5 bg-white mr-2" />
@@ -120,29 +117,31 @@ export default function Products() {
                         />
                       </div>
                       <div>
-                        <div className="text-[15px] font-medium ">
+                        <div className="text-[14px] font-medium inter-regular ">
                           {product.name}
                         </div>
-                        <div className="text-[12px] text-muted-foreground ">
+                        <div className="text-[13px] text-muted-foreground inter-regular">
                           {product.category.name}
                         </div>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="text-sm">
+                  <TableCell className="text-[14px] inter-regular">
                     {product.stockQuantity > 0 ? (
                       <span>{product.stockQuantity} in stock</span>
                     ) : (
                       <Badge
                         variant="secondary"
-                        className="bg-[#F3F4F6] text-[#6B7280] hover:bg-[#F3F4F6]"
+                        className="bg-[#E6E9F4] rounded-sm text-[#5A607F] hover:bg-[#F3F4F6]"
                       >
                         Out of Stock
                       </Badge>
                     )}
                   </TableCell>
-                  <TableCell className="text-sm">{product.colors[0]}</TableCell>
-                  <TableCell className="text-sm text-[#111827] font-medium">
+                  <TableCell className="text-[14px] inter-regular">
+                    {product.colors[0] ?? "-"}
+                  </TableCell>
+                  <TableCell className="text-[14px] text-[#111827] font-medium">
                     {product.price}
                   </TableCell>
                   <TableCell className="text-sm">5</TableCell>
@@ -194,7 +193,9 @@ export default function Products() {
             </PaginationItem>
           </PaginationContent>
         </Pagination>
-        <div className="text-sm text-[#6B7280]">{data?.meta?.all} Results</div>
+        <div className="text-[14px] text-[#6B7280]">
+          {data?.meta?.all} Results
+        </div>
       </div>
     </div>
   );

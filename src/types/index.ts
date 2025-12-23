@@ -216,45 +216,7 @@ export type CustomerDetail = {
 };
 
 // Category Types
-export type Category = {
-  id: string;
-  name: string;
-  image: string;
-};
-
-export type CategoryCardProps = {
-  category: Category;
-};
-
-export type ProductListItem = {
-  id: number;
-  name: string;
-  category: string;
-  image: string;
-  inventory: string;
-  color: string;
-  price: string;
-  rating: string;
-  inStock: boolean;
-};
-
-export type CategoryProduct = {
-  id: number;
-  name: string;
-  image: string;
-};
-
-export type CategoryData = {
-  id?: string;
-  name: string;
-  image: string;
-  isVisible: boolean;
-  products: CategoryProduct[];
-};
-
-export type EditCategoryProps = {
-  initialData?: CategoryData;
-};
+// Moved to categories.types.ts and products.types.ts
 
 export type TransactionStat = {
   title: string;

@@ -16,6 +16,8 @@ export const api = createApi({
     "Category",
     "Coupons",
     "Coupon",
+    "Transactions",
+    "Transaction",
   ],
 
   endpoints: () => ({}),

@@ -1,6 +1,10 @@
 import type { PaginatedApiResponse } from "./shared.types";
 
-export type CouponType = "FREE_SHIPPING" | "FIXED" | "PERCENTAGE";
+export type CouponType =
+  | "FREE_SHIPPING"
+  | "FIXED"
+  | "PERCENTAGE"
+  | "PRICE_DISCOUNT";
 export type CouponStatus = "ACTIVE" | "INACTIVE" | "EXPIRED";
 
 export interface CouponAppliesTo {
@@ -40,6 +44,20 @@ export interface CouponsQuery {
   status?: CouponStatus;
   type?: CouponType;
   search?: string;
-  sortBy?: string;
+  sortBy?: "createdAt" | "startDate" | "endDate" | "usageCount";
   sortOrder?: "asc" | "desc";
+}
+
+export type AppliesTo = "ALL" | "SPECIFIC_PRODUCTS" | "SPECIFIC_CATEGORIES";
+
+export interface CreateCouponInput {
+  code: string;
+  name: string;
+  type: CouponType;
+  value: number;
+  startDate: string;
+  endDate?: string | null;
+  usageLimit?: number | null;
+  appliesTo?: AppliesTo;
+  minOrderValue?: number;
 }

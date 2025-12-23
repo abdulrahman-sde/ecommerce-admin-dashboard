@@ -1,11 +1,7 @@
 import { StatCard } from "@/components/shared/StatCard";
 import CustomerOverview from "@/components/dashboard/customers/CustomerOverview";
 import { CustomerTable } from "@/components/dashboard/customers/CustomerTable";
-import {
-  customerStatsData,
-  customerOverviewData,
-  customerTableData,
-} from "@/constants/constants";
+import { customerStatsData, customerOverviewData } from "@/constants/constants";
 
 export default function Users() {
   return (
@@ -32,7 +28,7 @@ export default function Users() {
       </div>
 
       {/* Customer Table */}
-      <CustomerTable data={customerTableData} />
+      <CustomerTable />
     </div>
   );
 }

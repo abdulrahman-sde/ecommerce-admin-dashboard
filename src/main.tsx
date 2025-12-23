@@ -10,11 +10,9 @@ import Home from "./pages/dashboard/Home.tsx";
 import Customers from "./pages/dashboard/customers/index.tsx";
 import CustomerDetail from "./pages/dashboard/customers/detail.tsx";
 import AddCustomer from "./pages/dashboard/customers/add.tsx";
-import Orders from "./pages/dashboard/Orders.tsx";
-import Coupons from "./pages/dashboard/coupons/index.tsx";
-import AddCoupon from "./pages/dashboard/coupons/add.tsx";
+import Orders from "./pages/dashboard/orders/index.tsx";
 import Categories from "./pages/dashboard/categories/index.tsx";
-import EditCategory from "./pages/dashboard/categories/edit.tsx";
+import EditCategory from "./pages/dashboard/categories/EditCategory.tsx";
 import Transactions from "./pages/dashboard/Transactions.tsx";
 import Reports from "./pages/dashboard/Reports.tsx";
 import AddProducts from "./pages/dashboard/AddProducts.tsx";
@@ -23,6 +21,8 @@ import Admin from "./pages/dashboard/Admin.tsx";
 import { Provider } from "react-redux";
 import { store } from "./lib/store/store.ts";
 import { Toaster } from "sonner";
+import Coupons from "./pages/dashboard/coupons/index.tsx";
+import AddCoupon from "./pages/dashboard/coupons/AddCoupon.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -49,6 +49,7 @@ const router = createBrowserRouter([
       { path: "transactions", element: <Transactions /> },
       { path: "reports", element: <Reports /> },
       { path: "products/add", element: <AddProducts /> },
+      { path: "products/edit/:id", element: <AddProducts /> },
       { path: "products", element: <Products /> },
       { path: "admin", element: <Admin /> },
     ],
