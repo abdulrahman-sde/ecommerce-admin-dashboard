@@ -29,29 +29,29 @@ export function StatsCard({
   className,
 }: StatsCardProps) {
   return (
-    <Card className={cn("relative", className)}>
-      <CardHeader className="flex flex-row items-center justify-between -mb-2 ">
-        <div className="flex flex-col gap-1">
-          <h3 className="">{title}</h3>
-          <p className="text-[14px] text-neutral-500">{subtitle}</p>
+    <Card className={cn("relative px-2 py-5 gap-1", className)}>
+      <CardHeader className="flex flex-row items-center justify-between px-4 pb-5 -mb-2">
+        <div className="flex flex-col gap-0.5">
+          <h3 className="text-[15.5px] font-semibold">{title}</h3>
+          <p className="text-[13.5px] text-neutral-500">{subtitle}</p>
         </div>
       </CardHeader>
-      <CardContent className="">
-        <div className="flex items-center flex-row gap-4">
-          <h1>{value}</h1>
-          <div className="flex">
-            {label && <span className="text-[17px]">{label}</span>}
+      <CardContent className="px-4 ">
+        <div className="flex items-center flex-row gap-3">
+          <h1 className="text-[27.5px] font-bold leading-tight">{value}</h1>
+          <div className="flex items-baseline">
+            {label && <span className="text-[16.5px]">{label}</span>}
             {change && (
               <div
                 className={cn(
-                  "ml-2 flex flex-col xl:flex-row items-center",
+                  "ml-1.5 flex flex-col xl:flex-row items-center text-[13.5px]",
                   change.isPositive ? "text-rise" : "text-destructive"
                 )}
               >
                 {change.isPositive ? (
-                  <ArrowUp size={18} className="hidden xl:block" />
+                  <ArrowUp size={15} className="hidden xl:block" />
                 ) : (
-                  <ArrowDown size={18} className="hidden xl:block" />
+                  <ArrowDown size={15} className="hidden xl:block" />
                 )}
                 {change.value}
               </div>
@@ -61,9 +61,9 @@ export function StatsCard({
 
         <div className="flex items-center justify-between">
           {previousValue && (
-            <p className="text-[15px] mt-0.5 text-muted-foreground">
+            <p className="text-[14.5px] mt-1 text-muted-foreground">
               Previous 7days
-              <span className="text-tertiary font-bold ms-2">
+              <span className="text-tertiary font-bold ms-1.5">
                 ({previousValue})
               </span>
             </p>
@@ -75,7 +75,7 @@ export function StatsCard({
             variant="outline"
             size="sm"
             onClick={onDetailsClick}
-            className="text-tertiary justify-self-end h-[32px] w-[96px] py-4 px-4  border-[1.5px] text-[16px] border-tertiary hover:bg-tertiary/10 rounded-full  bg-transparent mt-4 "
+            className="text-tertiary justify-self-end h-[30px] w-[88px] border-[1.5px] text-[15.5px] border-tertiary hover:bg-tertiary/10 rounded-full bg-transparent mt-5"
           >
             Details
           </Button>

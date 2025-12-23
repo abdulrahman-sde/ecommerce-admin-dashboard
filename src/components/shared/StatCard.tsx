@@ -1,6 +1,5 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { ArrowUp, ArrowDown, MoreVertical } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowUp, ArrowDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface StatCardProps {
@@ -11,7 +10,6 @@ interface StatCardProps {
     value: string;
     isPositive: boolean;
   };
-  showMenu?: boolean;
   className?: string;
 }
 
@@ -20,7 +18,6 @@ export function StatCard({
   value,
   subtitle = "Last 7 days",
   change,
-  showMenu = true,
   className,
 }: StatCardProps) {
   return (

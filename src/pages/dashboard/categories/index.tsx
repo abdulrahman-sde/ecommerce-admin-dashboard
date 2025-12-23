@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import CategoryCard from "@/components/dashboard/categories/CategoryCard";
 import ProductsTable from "@/components/dashboard/categories/ProductsTable";
-import { Plus, MoreVertical } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useCategory } from "@/hooks/useCategory";
 import { CategoryCardSkeleton } from "@/components/shared/skeletons";
 
